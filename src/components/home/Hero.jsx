@@ -15,7 +15,7 @@ export default function Hero() {
           shipping video weight to mobile connections. */}
       <video
         className="hidden lg:block absolute inset-0 w-full h-full object-cover"
-        src="/media/hero-bg.mp4"
+        src="/media/fabsvideo1.mp4"
         poster="/media/placeholder.png"
         autoPlay
         muted
