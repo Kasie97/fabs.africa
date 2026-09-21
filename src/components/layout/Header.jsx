@@ -103,7 +103,7 @@ export default function Header() {
               aria-label="Francophone Africa Business Summit — home"
             >
               <img
-                src="/media/fabs-logo.png"
+                src="/media/fabslogo.png"
                 alt="Francophone Africa Business Summit"
                 className="h-12 xl:h-16 w-auto"
               />
