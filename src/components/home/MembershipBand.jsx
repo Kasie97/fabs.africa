@@ -3,21 +3,19 @@ import Button from "../ui/Button";
 
 export default function MembershipBand() {
   return (
-    <section className="bg-ink text-white">
+    <section className="bg-brand text-white">
       <Container className="py-14 sm:py-16">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           <div className="max-w-xl">
-            <p className="text-sm text-white/70 leading-relaxed">
-              Our members include Fund Managers, Direct Investors, Third Party Fund Managers,
-              Institutional Investors, Foundations, Financial Institutions, Professional Services
-              Firms and Academic Institutions.
+            <p className="text-sm text-white/80 leading-relaxed">
+              Lagos, Nigeria · February 18th – 19th, 2025 · Lagos Continental Hotel
             </p>
-            <h2 className="font-display text-2xl sm:text-3xl font-medium mt-4">
-              Join us to collectively build a prosperous Africa
+            <h2 className="font-display text-2xl sm:text-3xl font-bold mt-4">
+              Amplifying Growth in Africa: From Momentum to Scale
             </h2>
           </div>
-          <Button to="/membership" variant="primary" className="shrink-0">
-            Why become an AVCA member?
+          <Button to="/register" variant="inverse" className="shrink-0">
+            Register for FABS 2025
           </Button>
         </div>
       </Container>

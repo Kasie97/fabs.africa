@@ -15,15 +15,15 @@ export default function NewsletterStrip() {
     <section className="border-y border-line">
       <Container className="py-14 sm:py-16">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-medium text-ink">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink">
             Subscribe to our newsletter
           </h2>
           <p className="text-sm text-ink-soft mt-2">
-            The latest news, events and updates from AVCA, in your inbox.
+            The latest news, events and updates from FABS, in your inbox.
           </p>
 
           {submitted ? (
-            <p className="mt-6 text-sm font-medium text-teal">
+            <p className="mt-6 text-sm font-medium text-brand">
               You're subscribed. Look out for our next update.
             </p>
           ) : (
@@ -45,7 +45,7 @@ export default function NewsletterStrip() {
               />
               <button
                 type="submit"
-                className="bg-ink text-white font-semibold text-sm px-6 py-3 min-h-[44px] hover:bg-navy-light transition-colors"
+                className="bg-brand text-white font-semibold text-sm px-6 py-3 min-h-[44px] hover:bg-brand-dark transition-colors"
               >
                 Sign up
               </button>

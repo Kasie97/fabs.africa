@@ -2,24 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-300.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-900.woff2") format("woff2"); font-weight: 900; font-style: normal; font-display: swap; }
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-paper text-ink font-sans antialiased;
+  @apply bg-white text-ink font-sans antialiased;
 }
 
 ::selection {
-  background-color: #C89A3C;
-  color: #10233F;
+  background-color: #E8963A;
+  color: #151111;
 }
 
 /* Visible keyboard focus */
 a:focus-visible,
 button:focus-visible,
-input:focus-visible {
-  outline: 2px solid #C89A3C;
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #E8963A;
   outline-offset: 2px;
 }
 

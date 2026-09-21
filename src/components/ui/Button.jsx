@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
 const base =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-semibold transition-colors duration-150 focus-visible:outline-2";
+  "inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-semibold transition duration-150 focus-visible:outline-2";
 
 const variants = {
-  primary: "bg-gold text-ink hover:bg-gold-dark",
-  outline: "border border-ink text-ink hover:bg-ink hover:text-white",
-  ghost: "text-ink hover:text-gold-dark",
-  inverse: "bg-white text-ink hover:bg-paper",
+  primary: "bg-gradient-to-r from-brand to-accent text-white hover:brightness-110",
+  outline: "border border-brand text-brand hover:bg-brand hover:text-white",
+  ghost: "text-ink hover:text-brand",
+  inverse: "bg-white text-brand hover:bg-paper",
 };
 
 export default function Button({ to, href, variant = "primary", children, className = "" }) {

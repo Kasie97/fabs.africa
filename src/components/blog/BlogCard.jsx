@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { urlFor } from "../../lib/sanity/image";
+import { NEWSLETTER_PATH } from "../../data/navigation";
 
 function formatDate(dateString) {
   if (!dateString) return "";
@@ -18,8 +19,8 @@ export default function BlogCard({ post }) {
 
   return (
     <Link
-      to={`/news/afri-spective-blog/${post.slug}`}
-      className="group flex flex-col bg-white border border-line border-t-4 border-t-rust overflow-hidden h-full transition-colors hover:bg-paper"
+      to={`${NEWSLETTER_PATH}/${post.slug}`}
+      className="group flex flex-col bg-white border border-line border-t-4 border-t-brand overflow-hidden h-full transition-colors hover:bg-paper"
     >
       <div className="aspect-[16/10] overflow-hidden bg-paper">
         <img
@@ -30,10 +31,10 @@ export default function BlogCard({ post }) {
       </div>
       <div className="flex flex-col flex-1 p-6">
         {post.category && (
-          <span className="text-xs font-semibold text-rust">{post.category}</span>
+          <span className="text-xs font-bold text-brand">{post.category}</span>
         )}
         <span className="text-xs text-ink-soft mt-1">{formatDate(post.publishedAt)}</span>
-        <h3 className="font-display text-xl font-medium text-ink mt-3 leading-snug">
+        <h3 className="font-display text-xl font-bold text-ink mt-3 leading-snug">
           {post.title}
         </h3>
         {post.excerpt && (

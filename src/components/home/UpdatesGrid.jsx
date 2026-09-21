@@ -3,6 +3,7 @@ import SectionHeading from "../ui/SectionHeading";
 import Button from "../ui/Button";
 import UpdateCard from "./UpdateCard";
 import { updates } from "../../data/updates";
+import { NEWSLETTER_PATH } from "../../data/navigation";
 
 export default function UpdatesGrid() {
   return (
@@ -10,10 +11,10 @@ export default function UpdatesGrid() {
       <Container>
         <SectionHeading
           eyebrow="What's new"
-          title="The latest events, research and member updates from AVCA"
+          title="The latest from the Francophone Africa Business Summit"
           action={
-            <Button to="/news/industry-news" variant="outline">
-              View all updates
+            <Button to={NEWSLETTER_PATH} variant="outline">
+              View the newsletter
             </Button>
           }
         />

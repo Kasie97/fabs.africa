@@ -1,14 +1,12 @@
 // Maps a content-category accent key to its border/text utility classes.
 export const accentBorder = {
-  teal: "border-t-teal",
-  gold: "border-t-gold",
-  navy: "border-t-ink",
-  rust: "border-t-rust",
+  brand: "border-t-brand",
+  accent: "border-t-accent",
+  ink: "border-t-ink",
 };
 
 export const accentText = {
-  teal: "text-teal",
-  gold: "text-gold-dark",
-  navy: "text-ink",
-  rust: "text-rust",
+  brand: "text-brand",
+  accent: "text-accent-dark",
+  ink: "text-ink",
 };

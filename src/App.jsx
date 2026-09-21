@@ -1,13 +1,13 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import EpenaLaw from "./pages/EpenaLaw";
 import GenericPage from "./pages/GenericPage";
 import BlogListing from "./pages/BlogListing";
 import BlogPost from "./pages/BlogPost";
-import { nav } from "./data/navigation";
-
-const BLOG_PATH = "/news/afri-spective-blog";
+import { nav, NEWSLETTER_PATH } from "./data/navigation";
 
 // Flatten the nav model into a unique list of secondary routes.
 const secondaryPaths = new Set();
@@ -15,9 +15,13 @@ nav.forEach((item) => {
   secondaryPaths.add(item.path);
   item.children?.forEach((c) => secondaryPaths.add(c.path));
 });
-["/contact", "/media-toolkit", "/newsletter", "/login"].forEach((p) => secondaryPaths.add(p));
-// The blog gets its own Sanity-backed routes below instead of the generic template.
-secondaryPaths.delete(BLOG_PATH);
+secondaryPaths.add("/register");
+// The newsletter has its own Sanity-backed routes; /insights redirects to it.
+secondaryPaths.delete("/insights");
+secondaryPaths.delete(NEWSLETTER_PATH);
+// These pages have their own dedicated components below.
+secondaryPaths.delete("/about");
+secondaryPaths.delete("/epena-law");
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -34,8 +38,11 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path={BLOG_PATH} element={<BlogListing />} />
-          <Route path={`${BLOG_PATH}/:slug`} element={<BlogPost />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/epena-law" element={<EpenaLaw />} />
+          <Route path="/insights" element={<Navigate to={NEWSLETTER_PATH} replace />} />
+          <Route path={NEWSLETTER_PATH} element={<BlogListing />} />
+          <Route path={`${NEWSLETTER_PATH}/:slug`} element={<BlogPost />} />
           {[...secondaryPaths].map((path) => (
             <Route key={path} path={path} element={<GenericPage />} />
           ))}
@@ -52,4 +59,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-

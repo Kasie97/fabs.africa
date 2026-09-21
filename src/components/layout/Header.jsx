@@ -1,8 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ChevronDown, Menu } from "lucide-react";
-import { nav, utilityLinks } from "../../data/navigation";
+import {
+  ChevronDown,
+  Menu,
+  Phone,
+  Mail,
+  ArrowRight,
+} from "lucide-react";
+import {
+  nav,
+  registerLink,
+  contactInfo,
+} from "../../data/navigation";
 import Container from "../ui/Container";
+import SocialLinks from "../ui/SocialIcons";
 import MobileNav from "./MobileNav";
 
 export default function Header() {
@@ -13,35 +24,70 @@ export default function Header() {
   useEffect(() => {
     // Lock body scroll while the mobile drawer is open.
     document.body.style.overflow = mobileOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
   const openMenu = (idx) => {
-    clearTimeout(closeTimer.current);
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+
     setOpenIndex(idx);
   };
 
   const scheduleClose = () => {
-    closeTimer.current = setTimeout(() => setOpenIndex(null), 120);
+    closeTimer.current = setTimeout(() => {
+      setOpenIndex(null);
+    }, 120);
   };
 
   return (
     <header className="sticky top-0 z-40 bg-white">
-      {/* Utility bar — hidden on small screens to save space */}
-      <div className="hidden lg:block bg-ink text-white">
+      {/* Contact bar — hidden below xl to save space */}
+      <div className="hidden xl:block bg-brand text-white">
         <Container>
-          <div className="flex justify-end gap-6 py-2 text-xs">
-            {utilityLinks.map((l) => (
-              <Link
-                key={l.label}
-                to={l.path}
-                className="text-white/80 hover:text-gold transition-colors"
+          <div className="flex items-center justify-between py-3 text-sm">
+            <div className="flex items-center gap-8">
+              <a
+                href={contactInfo.phoneHref}
+                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
               >
-                {l.label}
-              </Link>
-            ))}
+                <Phone size={15} />
+                {contactInfo.phone}
+              </a>
+
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
+              >
+                <Mail size={15} />
+                {contactInfo.email}
+              </a>
+            </div>
+
+            <div className="flex items-center gap-5">
+              <SocialLinks />
+
+              {/* Visual placeholder — wire to i18n when the French version is ready. */}
+              <label
+                htmlFor="lang-select"
+                className="sr-only"
+              >
+                Language
+              </label>
+
+              <select
+                id="lang-select"
+                defaultValue="en"
+                className="bg-white text-ink text-xs font-medium px-2 py-1.5 min-w-[110px]"
+              >
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
           </div>
         </Container>
       </div>
@@ -49,52 +95,96 @@ export default function Header() {
       {/* Main nav */}
       <div className="border-b border-line">
         <Container>
-          <div className="flex items-center justify-between h-20">
-            <Link to="/" className="font-display text-2xl font-semibold text-ink tracking-tight shrink-0">
-              AVCA
+          <div className="flex items-center justify-between h-20 xl:h-24">
+            {/* Logo */}
+            <Link
+              to="/"
+              className="shrink-0"
+              aria-label="Francophone Africa Business Summit — home"
+            >
+              <img
+                src="/media/fabs-logo.png"
+                alt="Francophone Africa Business Summit"
+                className="h-12 xl:h-16 w-auto"
+              />
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
+            <nav
+              className="hidden xl:flex items-center gap-2"
+              aria-label="Primary"
+            >
               {nav.map((item, idx) => (
                 <div
                   key={item.label}
                   className="relative"
-                  onMouseEnter={() => item.children && openMenu(idx)}
-                  onMouseLeave={() => item.children && scheduleClose()}
+                  onMouseEnter={() => {
+                    if (item.children) {
+                      openMenu(idx);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (item.children) {
+                      scheduleClose();
+                    }
+                  }}
                 >
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center gap-1 px-3 py-2 text-[15px] font-medium rounded transition-colors ${
-                        isActive ? "text-gold-dark" : "text-ink hover:text-gold-dark"
+                      `flex items-center gap-1 px-3 py-2 text-[16px] font-medium transition-colors ${
+                        isActive
+                          ? "text-brand"
+                          : "text-ink hover:text-brand"
                       }`
                     }
-                    aria-expanded={openIndex === idx}
-                    aria-haspopup={!!item.children}
-                    onClick={() => item.children && setOpenIndex(openIndex === idx ? null : idx)}
+                    aria-expanded={
+                      item.children
+                        ? openIndex === idx
+                        : undefined
+                    }
+                    aria-haspopup={
+                      item.children ? true : undefined
+                    }
+                    onClick={() => {
+                      if (item.children) {
+                        setOpenIndex(
+                          openIndex === idx ? null : idx
+                        );
+                      }
+                    }}
                   >
                     {item.label}
+
                     {item.children && (
                       <ChevronDown
                         size={15}
-                        className={`transition-transform ${openIndex === idx ? "rotate-180" : ""}`}
+                        className={`transition-transform ${
+                          openIndex === idx
+                            ? "rotate-180"
+                            : ""
+                        }`}
                       />
                     )}
                   </NavLink>
 
+                  {/* Dropdown */}
                   {item.children && openIndex === idx && (
                     <div
-                      className="absolute left-0 top-full pt-2 w-64 animate-fade-up"
-                      style={{ animationDuration: "0.15s" }}
+                      className="absolute left-0 top-full pt-2 min-w-[220px] animate-fade-up"
+                      style={{
+                        animationDuration: "0.15s",
+                      }}
                     >
-                      <ul className="bg-white border border-line shadow-lg py-2">
+                      <ul className="bg-white shadow-lg py-2">
                         {item.children.map((child) => (
                           <li key={child.path}>
                             <Link
                               to={child.path}
-                              className="block px-4 py-2.5 text-sm text-ink-soft hover:bg-paper hover:text-ink"
-                              onClick={() => setOpenIndex(null)}
+                              className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
+                              onClick={() =>
+                                setOpenIndex(null)
+                              }
                             >
                               {child.label}
                             </Link>
@@ -107,15 +197,19 @@ export default function Header() {
               ))}
             </nav>
 
+            {/* Register button and mobile menu */}
             <div className="flex items-center gap-3">
               <Link
-                to="/membership"
-                className="hidden lg:inline-flex bg-gold text-ink font-semibold text-sm px-5 py-2.5 hover:bg-gold-dark transition-colors"
+                to={registerLink.path}
+                className="hidden xl:inline-flex items-center gap-2 bg-gradient-to-r from-brand to-accent text-white font-semibold text-[16px] px-7 py-4 hover:brightness-110 transition"
               >
-                Become a member
+                {registerLink.label}
+                <ArrowRight size={18} />
               </Link>
+
               <button
-                className="lg:hidden p-2 -mr-2 text-ink"
+                type="button"
+                className="xl:hidden p-2 -mr-2 text-ink"
                 aria-label="Open menu"
                 onClick={() => setMobileOpen(true)}
               >
@@ -126,7 +220,11 @@ export default function Header() {
         </Container>
       </div>
 
-      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      {/* Mobile navigation */}
+      <MobileNav
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
     </header>
   );
 }

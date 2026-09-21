@@ -11,22 +11,24 @@ export default {
     },
     extend: {
       colors: {
-        ink: "#10233F",
-        "ink-soft": "#4A5568",
-        paper: "#F5F6F4",
-        gold: "#C89A3C",
-        "gold-dark": "#A87D2A",
-        line: "#E2E4E0",
-        teal: "#2F6F62",
-        rust: "#A6462B",
-        navy: {
-          DEFAULT: "#10233F",
-          light: "#1A3358",
+        ink: "#151111",
+        "ink-soft": "#4B4545",
+        paper: "#FAF6F2",
+        line: "#E9E3DD",
+        brand: {
+          DEFAULT: "#93302F",
+          dark: "#7A2524",
+          light: "#A83B39",
+        },
+        accent: {
+          DEFAULT: "#E8963A",
+          dark: "#B8661A", // darker orange for text on white backgrounds
         },
       },
       fontFamily: {
-        display: ["Fraunces", "serif"],
-        sans: ["Plus Jakarta Sans", "sans-serif"],
+        // "museo-sans" is the Adobe Fonts family name; "Museo Sans" is the self-hosted name.
+        display: ['"Museo Sans"', '"museo-sans"', "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        sans: ['"Museo Sans"', '"museo-sans"', "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
       },
       maxWidth: {
         "8xl": "90rem",

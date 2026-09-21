@@ -4,6 +4,7 @@ import Container from "../components/ui/Container";
 import { useSanityQuery } from "../hooks/useSanityQuery";
 import { POST_BY_SLUG_QUERY } from "../lib/sanity/queries";
 import { urlFor } from "../lib/sanity/image";
+import { NEWSLETTER_PATH } from "../data/navigation";
 
 function formatDate(dateString) {
   if (!dateString) return "";
@@ -18,16 +19,16 @@ function formatDate(dateString) {
 const portableTextComponents = {
   block: {
     h2: ({ children }) => (
-      <h2 className="font-display text-2xl sm:text-3xl font-medium text-ink mt-10 mb-4">{children}</h2>
+      <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink mt-10 mb-4">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="font-display text-xl font-medium text-ink mt-8 mb-3">{children}</h3>
+      <h3 className="font-display text-xl font-bold text-ink mt-8 mb-3">{children}</h3>
     ),
     normal: ({ children }) => (
       <p className="text-ink-soft leading-relaxed mb-5">{children}</p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-gold pl-5 my-6 text-lg font-display text-ink italic">
+      <blockquote className="border-l-4 border-accent pl-5 my-6 text-lg font-display text-ink italic">
         {children}
       </blockquote>
     ),
@@ -43,7 +44,7 @@ const portableTextComponents = {
   },
   marks: {
     link: ({ children, value }) => (
-      <a href={value.href} className="text-ink underline decoration-gold hover:text-gold-dark">
+      <a href={value.href} className="text-ink underline decoration-accent hover:text-brand">
         {children}
       </a>
     ),
@@ -58,9 +59,9 @@ export default function BlogPost() {
     return (
       <Container className="py-20">
         <div className="border border-line bg-white p-6 max-w-2xl">
-          <h1 className="font-display text-lg text-ink mb-2">Sanity isn't connected yet</h1>
+          <h1 className="font-display text-lg font-bold text-ink mb-2">Sanity isn't connected yet</h1>
           <p className="text-sm text-ink-soft leading-relaxed">
-            Add your project credentials to .env and individual posts will render here
+            Add your project credentials to .env and individual newsletter posts will render here
             automatically.
           </p>
         </div>
@@ -87,12 +88,12 @@ export default function BlogPost() {
     return (
       <Container className="py-20">
         <div className="border border-line bg-white p-6 max-w-2xl">
-          <h1 className="font-display text-lg text-ink mb-2">Post not found</h1>
+          <h1 className="font-display text-lg font-bold text-ink mb-2">Post not found</h1>
           <p className="text-sm text-ink-soft leading-relaxed mb-4">
             {error?.message || "This post may have been unpublished or the link is out of date."}
           </p>
-          <Link to="/news/afri-spective-blog" className="text-sm font-semibold text-ink hover:text-gold-dark">
-            ← Back to Afri-Spective Blog
+          <Link to={NEWSLETTER_PATH} className="text-sm font-semibold text-ink hover:text-brand">
+            ← Back to Newsletter
           </Link>
         </div>
       </Container>
@@ -104,15 +105,15 @@ export default function BlogPost() {
       <section className="bg-paper border-b border-line">
         <Container className="py-14 sm:py-20">
           <Link
-            to="/news/afri-spective-blog"
+            to={NEWSLETTER_PATH}
             className="text-sm font-semibold text-ink-soft hover:text-ink"
           >
-            ← Afri-Spective Blog
+            ← Newsletter
           </Link>
           {post.category && (
-            <p className="text-sm font-semibold text-rust mt-5 mb-3">{post.category}</p>
+            <p className="text-sm font-bold text-brand mt-5 mb-3">{post.category}</p>
           )}
-          <h1 className="font-display text-3xl sm:text-5xl font-medium text-ink max-w-3xl leading-tight">
+          <h1 className="font-display text-3xl sm:text-5xl font-bold text-ink max-w-3xl leading-tight">
             {post.title}
           </h1>
           <p className="text-sm text-ink-soft mt-5">

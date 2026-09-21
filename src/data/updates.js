@@ -1,61 +1,39 @@
+// TODO: placeholder cards — replace with real content.
 export const updates = [
   {
-    category: "Research & Publications",
-    accent: "teal",
-    date: "28 July 2026",
-    title: "Q2 2026 Venture Capital in Africa Report",
+    category: "FABS 2025",
+    accent: "brand",
+    date: "18 – 19 February 2025",
+    title: "Francophone Africa Business Summit 2025",
     excerpt:
-      "An exclusive look at the latest trends in African venture capital — regional dynamics, sector shifts and the key areas driving investment across the continent.",
-    path: "/data-intelligence/research-publications",
+      "Amplifying Growth in Africa: From Momentum to Scale. Join us in Lagos, Nigeria at the Lagos Continental Hotel.",
+    path: "/fabs-2025",
   },
   {
-    category: "Industry Events",
-    accent: "gold",
-    date: "7 – 11 September 2026",
-    title: "Mauritius Finance Roadshow 2026",
+    category: "Road To FABS 2025",
+    accent: "accent",
+    date: "Coming soon",
+    title: "DRC – Sip & Learn",
     excerpt:
-      "A high-level platform promoting Mauritius as a trusted, forward-looking financial centre for cross-border investment, funds and private wealth in and beyond Africa.",
-    path: "/events/calendar",
+      "A session on the road to FABS 2025 focused on the Democratic Republic of Congo.",
+    path: "/road-to-fabs-2025/drc-sip-and-learn",
   },
   {
-    category: "Member News",
-    accent: "navy",
-    date: "3 September 2026",
-    title: "Meridian Capital backs Solara Logistics",
+    category: "Past Events",
+    accent: "ink",
+    date: "Previous edition",
+    title: "FABS 2024",
     excerpt:
-      "Meridian Capital's growth fund announces a minority equity investment in Solara Logistics, accelerating the firm's expansion of AI-driven supply chain infrastructure across the region.",
-    path: "/news/member-news",
+      "Look back at the highlights, photos and videos from the 2024 edition of the summit.",
+    path: "/past-events/fabs-2024",
   },
   {
-    category: "Afri-Spective Blog",
-    accent: "rust",
-    date: "26 August 2026",
-    title: "The bet the market is still too comfortable to make",
+    category: "Newsletter",
+    accent: "brand",
+    date: "Latest issue",
+    title: "Read the FABS Newsletter",
     excerpt:
-      "One early-stage investor sets out its thesis on backing founders building the rails for daily life — healthcare, fintech and mobility — and the risks that don't appear in any standard model.",
-    path: "/news/afri-spective-blog",
-  },
-];
-
-export const pillars = [
-  {
-    title: "Advocacy",
-    description:
-      "Through expert advisory committees and our Board, we support and inform the industry on policy and regulatory change affecting private capital in Africa.",
-  },
-  {
-    title: "Community Building",
-    description:
-      "Connecting the industry through curated, research-driven events — our conferences are the go-to Africa-focused private capital gathering globally.",
-  },
-  {
-    title: "Data & Intelligence",
-    description:
-      "Independent industry research and dynamic market intelligence, drawn from a proprietary pan-African database of funds, deals and exits.",
-  },
-  {
-    title: "Capacity Building",
-    description:
-      "Our Academy delivers in-person, virtual and on-demand training, alongside programmes targeted at emerging fund managers and institutional investors.",
+      "News, updates and insights from the Francophone Africa Business Summit, straight from our team.",
+    path: "/insights/newsletter",
   },
 ];

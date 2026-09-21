@@ -12,13 +12,12 @@ export default function BlogListing() {
     <>
       <section className="bg-paper border-b border-line">
         <Container className="py-14 sm:py-20">
-          <p className="text-sm font-semibold text-gold-dark mb-3">News & Insights</p>
-          <h1 className="font-display text-3xl sm:text-5xl font-medium text-ink max-w-3xl leading-tight">
-            Afri-Spective Blog
+          <p className="text-sm font-bold text-brand mb-3">Insights</p>
+          <h1 className="font-display text-3xl sm:text-5xl font-bold text-ink max-w-3xl leading-tight">
+            Newsletter
           </h1>
           <p className="text-base sm:text-lg text-ink-soft mt-5 max-w-2xl leading-relaxed">
-            Perspectives and analysis from members and industry practitioners, published straight
-            from our Sanity content studio.
+            News, updates and insights from the Francophone Africa Business Summit.
           </p>
         </Container>
       </section>
@@ -27,18 +26,18 @@ export default function BlogListing() {
         <Container>
           {!configured && (
             <div className="border border-line bg-white p-6 mb-10 max-w-2xl">
-              <h2 className="font-display text-lg text-ink mb-2">Sanity isn't connected yet</h2>
+              <h2 className="font-display text-lg font-bold text-ink mb-2">Sanity isn't connected yet</h2>
               <p className="text-sm text-ink-soft leading-relaxed">
                 Add your project credentials to <code className="text-ink font-mono text-xs bg-paper px-1 py-0.5">.env</code> (copy
                 from <code className="text-ink font-mono text-xs bg-paper px-1 py-0.5">.env.example</code>) and this page will
-                pull posts live from your Sanity dataset — no other code changes needed.
+                pull newsletter posts live from your Sanity dataset — no other code changes needed.
               </p>
             </div>
           )}
 
           {configured && error && (
             <div className="border border-line bg-white p-6 mb-10 max-w-2xl">
-              <h2 className="font-display text-lg text-ink mb-2">Couldn't load posts</h2>
+              <h2 className="font-display text-lg font-bold text-ink mb-2">Couldn't load posts</h2>
               <p className="text-sm text-ink-soft leading-relaxed">
                 {error.message || "There was a problem reaching Sanity. Check your project ID, dataset and CORS origin settings."}
               </p>
@@ -58,7 +57,7 @@ export default function BlogListing() {
           </div>
 
           {!loading && configured && !error && posts?.length === 0 && (
-            <p className="text-ink-soft">No posts published yet — check back soon.</p>
+            <p className="text-ink-soft">No newsletters published yet — check back soon.</p>
           )}
         </Container>
       </section>
