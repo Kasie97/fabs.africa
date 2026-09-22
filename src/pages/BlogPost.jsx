@@ -51,7 +51,7 @@ const portableTextComponents = {
   },
 };
 
-export default function BlogPost() {
+export default function BlogPost({ basePath = NEWSLETTER_PATH, backLabel = "Newsletter" }) {
   const { slug } = useParams();
   const { data: post, loading, error, configured } = useSanityQuery(POST_BY_SLUG_QUERY, { slug });
 
@@ -61,7 +61,7 @@ export default function BlogPost() {
         <div className="border border-line bg-white p-6 max-w-2xl">
           <h1 className="font-display text-lg font-bold text-ink mb-2">Sanity isn't connected yet</h1>
           <p className="text-sm text-ink-soft leading-relaxed">
-            Add your project credentials to .env and individual newsletter posts will render here
+            Add your project credentials to .env and individual {backLabel.toLowerCase()} posts will render here
             automatically.
           </p>
         </div>
@@ -92,8 +92,8 @@ export default function BlogPost() {
           <p className="text-sm text-ink-soft leading-relaxed mb-4">
             {error?.message || "This post may have been unpublished or the link is out of date."}
           </p>
-          <Link to={NEWSLETTER_PATH} className="text-sm font-semibold text-ink hover:text-brand">
-            ← Back to Newsletter
+          <Link to={basePath} className="text-sm font-semibold text-ink hover:text-brand">
+            ← Back to {backLabel}
           </Link>
         </div>
       </Container>
@@ -105,10 +105,10 @@ export default function BlogPost() {
       <section className="bg-paper border-b border-line">
         <Container className="py-14 sm:py-20">
           <Link
-            to={NEWSLETTER_PATH}
+            to={basePath}
             className="text-sm font-semibold text-ink-soft hover:text-ink"
           >
-            ← Newsletter
+            ← {backLabel}
           </Link>
           {post.category && (
             <p className="text-sm font-bold text-brand mt-5 mb-3">{post.category}</p>

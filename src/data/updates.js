@@ -1,3 +1,5 @@
+import { NEWSLETTER_PATH } from "./navigation";
+
 // TODO: placeholder cards — replace with real content.
 export const updates = [
   {
@@ -6,17 +8,17 @@ export const updates = [
     date: "18 – 19 February 2025",
     title: "Francophone Africa Business Summit 2025",
     excerpt:
-      "Amplifying Growth in Africa: From Momentum to Scale. Join us in Lagos, Nigeria at the Lagos Continental Hotel.",
-    path: "/fabs-2025",
+      "Amplifying Growth in Africa: From Momentum to Scale. Look back at our time in Lagos, Nigeria at the Lagos Continental Hotel.",
+    path: "/past-events/fabs-2025/fabs-2025",
   },
   {
     category: "Road To FABS 2025",
     accent: "accent",
-    date: "Coming soon",
+    date: "Part of FABS 2025",
     title: "DRC – Sip & Learn",
     excerpt:
       "A session on the road to FABS 2025 focused on the Democratic Republic of Congo.",
-    path: "/road-to-fabs-2025/drc-sip-and-learn",
+    path: "/past-events/fabs-2025/road-to-fabs-2025/drc-sip-and-learn",
   },
   {
     category: "Past Events",
@@ -34,6 +36,6 @@ export const updates = [
     title: "Read the FABS Newsletter",
     excerpt:
       "News, updates and insights from the Francophone Africa Business Summit, straight from our team.",
-    path: "/insights/newsletter",
+    path: NEWSLETTER_PATH,
   },
 ];

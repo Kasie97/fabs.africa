@@ -1,5 +1,6 @@
-// All Epena Law page copy and media paths live here.
-// Rename the image paths to match the real files in public/media/.
+import { colors } from "../theme/colors";
+
+// All copy for the Epena Law page lives here.
 
 export const epenaIntro = {
   heading: "About Epena Law",
@@ -7,14 +8,12 @@ export const epenaIntro = {
   body: "Through our deep understanding of both civil and common laws system, we are able to seamlessly navigate through the various legal systems in Africa. We serve the needs of corporates, investment funds, growth companies and financial institutions by providing advisory services on a wide range of corporate and commercial transactions. Our core focus is Africa, where we have uniquely deep roots and knowledge of markets, regulations and key players.",
   callout:
     "We are passionate about innovation and are committed to working with our clients to deliver commercially driven legal solutions tailored to their businesses, disrupting traditional law firm models. We believe that innovation drives diversity and inclusion.",
-  // TODO: point this at Epena Law's own site or a longer page.
   readMore: { label: "Read more", href: "#" },
   badge: { value: "39+", line1: "Years of", line2: "Cumulative Experiences" },
   imageTop: { src: "/media/epena-buildings.jpg", alt: "Glass skyscrapers seen from below" },
   imageBottom: { src: "/media/epena-chess.jpg", alt: "Chess pieces stepping up a set of blocks" },
 };
 
-// icon: "award" | "dollar" | "building" | "badge"
 export const epenaStats = [
   {
     icon: "award",
@@ -50,13 +49,14 @@ export const gateway = {
   map: {
     src: "/media/epena-map.png",
     alt: "Map of Africa showing Epena Law's offices, representations and transactions",
-    // Set to false if your map image already includes its own legend.
     showLegend: true,
   },
+  // Legend colors are pulled from the central brand palette instead of
+  // one-off hex values, so the map legend always matches the rest of the site.
   legend: [
-    { color: "#8A8A8A", label: "Epena office in Francophone Africa" },
-    { color: "#4A1010", label: "Epena representation in Francophone African Countries" },
-    { color: "#E8963A", label: "Significant transactions of Advisory experience in francophone Africa" },
-    { color: "#F2B978", label: "Rest of Francophone Africa" },
+    { color: colors.brandDark, label: "Epena office in Francophone Africa" },
+    { color: colors.brand, label: "Epena representation in Francophone African Countries" },
+    { color: colors.accent, label: "Significant transactions of Advisory experience in francophone Africa" },
+    { color: colors.line, label: "Rest of Francophone Africa" },
   ],
 };

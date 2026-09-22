@@ -1,12 +1,67 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { X, ChevronDown, Phone, Mail } from "lucide-react";
-import { nav, registerLink, contactInfo } from "../../data/navigation";
+import { nav, registerLink, contactLink, contactInfo } from "../../data/navigation";
 import SocialLinks from "../ui/SocialIcons";
 
-export default function MobileNav({ open, onClose }) {
-  const [expanded, setExpanded] = useState(null);
+// Recursive accordion row so any depth of nav nesting works — we currently
+// need two levels: Past Events -> FABS 2025 -> [Road To FABS 2025, FABS 2025].
+function MobileNavItem({ item, level = 0, onNavigate }) {
+  const [open, setOpen] = useState(false);
+  const hasChildren = !!item.children?.length;
 
+  if (!hasChildren) {
+    return (
+      <Link
+        to={item.path}
+        onClick={onNavigate}
+        className={`flex items-center min-h-[44px] ${
+          level > 0
+            ? "py-3 pl-3 text-[15px] text-ink-soft"
+            : "py-4 text-[17px] font-medium text-ink"
+        }`}
+      >
+        {item.label}
+      </Link>
+    );
+  }
+
+  return (
+    <div>
+      <button
+        type="button"
+        className={`w-full flex items-center justify-between min-h-[44px] text-left ${
+          level > 0
+            ? "py-3 pl-3 text-[15px] text-ink-soft font-medium"
+            : "py-4 text-[17px] font-medium text-ink"
+        }`}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {item.label}
+        <ChevronDown
+          size={20}
+          className={`text-ink-soft transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div className="pb-2 pl-3">
+          {item.children.map((child) => (
+            <MobileNavItem
+              key={child.path}
+              item={child}
+              level={level + 1}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function MobileNav({ open, onClose }) {
   if (!open) return null;
 
   return (
@@ -23,7 +78,7 @@ export default function MobileNav({ open, onClose }) {
       <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-white shadow-xl flex flex-col animate-drawer-in">
         <div className="flex items-center justify-between h-20 px-5 border-b border-line shrink-0">
           <img
-            src="/media/fabs-logo.png"
+            src="/media/fabslogo.png"
             alt="Francophone Africa Business Summit"
             className="h-10 w-auto"
           />
@@ -43,55 +98,14 @@ export default function MobileNav({ open, onClose }) {
           aria-label="Mobile primary"
         >
           <ul className="divide-y divide-line">
-            {nav.map((item, idx) => (
+            {nav.map((item) => (
               <li key={item.label}>
-                {item.children ? (
-                  <>
-                    <button
-                      type="button"
-                      className="w-full flex items-center justify-between py-4 text-left text-[17px] font-medium text-ink min-h-[44px]"
-                      aria-expanded={expanded === idx}
-                      onClick={() =>
-                        setExpanded(expanded === idx ? null : idx)
-                      }
-                    >
-                      {item.label}
-
-                      <ChevronDown
-                        size={20}
-                        className={`text-ink-soft transition-transform ${
-                          expanded === idx ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-
-                    {expanded === idx && (
-                      <ul className="pb-3 pl-3">
-                        {item.children.map((child) => (
-                          <li key={child.path}>
-                            <Link
-                              to={child.path}
-                              onClick={onClose}
-                              className="py-3 text-[15px] text-ink-soft min-h-[44px] flex items-center"
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to={item.path}
-                    onClick={onClose}
-                    className="flex items-center py-4 text-[17px] font-medium text-ink min-h-[44px]"
-                  >
-                    {item.label}
-                  </Link>
-                )}
+                <MobileNavItem item={item} onNavigate={onClose} />
               </li>
             ))}
+            <li>
+              <MobileNavItem item={contactLink} onNavigate={onClose} />
+            </li>
           </ul>
 
           <div className="mt-4 pt-4 border-t border-line space-y-1 text-sm text-ink-soft">

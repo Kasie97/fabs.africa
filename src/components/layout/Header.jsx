@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   ChevronDown,
+  ChevronRight,
   Menu,
   Phone,
   Mail,
@@ -10,11 +11,80 @@ import {
 import {
   nav,
   registerLink,
+  contactLink,
   contactInfo,
 } from "../../data/navigation";
 import Container from "../ui/Container";
 import SocialLinks from "../ui/SocialIcons";
 import MobileNav from "./MobileNav";
+
+// A single dropdown row. Renders as a plain link, or — when it has its own
+// children (e.g. "FABS 2025" inside "Past Events") — as a row that opens a
+// second flyout menu to the right on hover.
+function DropdownChild({ child, onNavigate }) {
+  const [subOpen, setSubOpen] = useState(false);
+  const closeTimer = useRef(null);
+  const hasChildren = !!child.children?.length;
+
+  const openSub = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setSubOpen(true);
+  };
+
+  const scheduleCloseSub = () => {
+    closeTimer.current = setTimeout(() => setSubOpen(false), 120);
+  };
+
+  if (!hasChildren) {
+    return (
+      <li>
+        <Link
+          to={child.path}
+          className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
+          onClick={onNavigate}
+        >
+          {child.label}
+        </Link>
+      </li>
+    );
+  }
+
+  return (
+    <li
+      className="relative"
+      onMouseEnter={openSub}
+      onMouseLeave={scheduleCloseSub}
+    >
+      <Link
+        to={child.path}
+        className="flex items-center justify-between gap-4 px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
+        onClick={onNavigate}
+      >
+        {child.label}
+        <ChevronRight size={14} />
+      </Link>
+
+      {subOpen && (
+        <ul
+          className="absolute left-full top-0 min-w-[220px] bg-white shadow-lg py-2 animate-fade-up"
+          style={{ animationDuration: "0.15s" }}
+        >
+          {child.children.map((grandchild) => (
+            <li key={grandchild.path}>
+              <Link
+                to={grandchild.path}
+                className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
+                onClick={onNavigate}
+              >
+                {grandchild.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
 
 export default function Header() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -24,24 +94,18 @@ export default function Header() {
   useEffect(() => {
     // Lock body scroll while the mobile drawer is open.
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
   const openMenu = (idx) => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-    }
-
+    if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenIndex(idx);
   };
 
   const scheduleClose = () => {
-    closeTimer.current = setTimeout(() => {
-      setOpenIndex(null);
-    }, 120);
+    closeTimer.current = setTimeout(() => setOpenIndex(null), 120);
   };
 
   return (
@@ -71,11 +135,7 @@ export default function Header() {
             <div className="flex items-center gap-5">
               <SocialLinks />
 
-              {/* Visual placeholder — wire to i18n when the French version is ready. */}
-              <label
-                htmlFor="lang-select"
-                className="sr-only"
-              >
+              <label htmlFor="lang-select" className="sr-only">
                 Language
               </label>
 
@@ -119,38 +179,24 @@ export default function Header() {
                   key={item.label}
                   className="relative"
                   onMouseEnter={() => {
-                    if (item.children) {
-                      openMenu(idx);
-                    }
+                    if (item.children) openMenu(idx);
                   }}
                   onMouseLeave={() => {
-                    if (item.children) {
-                      scheduleClose();
-                    }
+                    if (item.children) scheduleClose();
                   }}
                 >
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
                       `flex items-center gap-1 px-3 py-2 text-[16px] font-medium transition-colors ${
-                        isActive
-                          ? "text-brand"
-                          : "text-ink hover:text-brand"
+                        isActive ? "text-brand" : "text-ink hover:text-brand"
                       }`
                     }
-                    aria-expanded={
-                      item.children
-                        ? openIndex === idx
-                        : undefined
-                    }
-                    aria-haspopup={
-                      item.children ? true : undefined
-                    }
+                    aria-expanded={item.children ? openIndex === idx : undefined}
+                    aria-haspopup={item.children ? true : undefined}
                     onClick={() => {
                       if (item.children) {
-                        setOpenIndex(
-                          openIndex === idx ? null : idx
-                        );
+                        setOpenIndex(openIndex === idx ? null : idx);
                       }
                     }}
                   >
@@ -160,9 +206,7 @@ export default function Header() {
                       <ChevronDown
                         size={15}
                         className={`transition-transform ${
-                          openIndex === idx
-                            ? "rotate-180"
-                            : ""
+                          openIndex === idx ? "rotate-180" : ""
                         }`}
                       />
                     )}
@@ -172,29 +216,34 @@ export default function Header() {
                   {item.children && openIndex === idx && (
                     <div
                       className="absolute left-0 top-full pt-2 min-w-[220px] animate-fade-up"
-                      style={{
-                        animationDuration: "0.15s",
-                      }}
+                      style={{ animationDuration: "0.15s" }}
                     >
                       <ul className="bg-white shadow-lg py-2">
                         {item.children.map((child) => (
-                          <li key={child.path}>
-                            <Link
-                              to={child.path}
-                              className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
-                              onClick={() =>
-                                setOpenIndex(null)
-                              }
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
+                          <DropdownChild
+                            key={child.path}
+                            child={child}
+                            onNavigate={() => setOpenIndex(null)}
+                          />
                         ))}
                       </ul>
                     </div>
                   )}
                 </div>
               ))}
+
+              {/* Contact Us — plain link, no dropdown, sits between the
+                  grouped nav items and the Register button. */}
+              <NavLink
+                to={contactLink.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-1 px-3 py-2 text-[16px] font-medium transition-colors ${
+                    isActive ? "text-brand" : "text-ink hover:text-brand"
+                  }`
+                }
+              >
+                {contactLink.label}
+              </NavLink>
             </nav>
 
             {/* Register button and mobile menu */}
@@ -221,10 +270,7 @@ export default function Header() {
       </div>
 
       {/* Mobile navigation */}
-      <MobileNav
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      />
+      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }

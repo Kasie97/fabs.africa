@@ -1,6 +1,7 @@
 import { Award, CircleDollarSign, Building2, BadgeCheck, Check, ArrowRight } from "lucide-react";
 import Photo from "../components/ui/Photo";
 import { epenaIntro, epenaStats, gateway } from "../data/epena";
+import { colors, withAlpha } from "../theme/colors";
 
 const statIcons = {
   award: Award,
@@ -19,7 +20,7 @@ export default function EpenaLaw() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/2 lg:block"
           style={{
-            backgroundImage: "radial-gradient(circle, #d4d4d4 1.6px, transparent 1.7px)",
+            backgroundImage: `radial-gradient(circle, ${withAlpha(colors.ink, 0.15)} 1.6px, transparent 1.7px)`,
             backgroundSize: "16px 16px",
             WebkitMaskImage: "radial-gradient(ellipse at 20% 30%, black 0%, transparent 70%)",
             maskImage: "radial-gradient(ellipse at 20% 30%, black 0%, transparent 70%)",
@@ -89,7 +90,7 @@ export default function EpenaLaw() {
 
       {/* Stats strip */}
       <section className="px-5 pt-12 sm:px-8 sm:pt-16">
-        <div className="mx-auto max-w-5xl border border-line bg-neutral-50 p-5 shadow-sm sm:p-6">
+        <div className="mx-auto max-w-5xl border border-line bg-paper p-5 shadow-sm sm:p-6">
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {epenaStats.map((s) => {
               const Icon = statIcons[s.icon];
@@ -100,7 +101,6 @@ export default function EpenaLaw() {
                     <p className="flex items-baseline gap-1.5 font-bold leading-none text-ink">
                       <span className="text-3xl">{s.value}</span>
                       {s.suffix && (
-                        // Short suffixes ("+") render large; longer ones ("B USD") render small.
                         <span className={s.suffix.length > 1 ? "text-sm" : "text-2xl"}>
                           {s.suffix}
                         </span>
@@ -116,7 +116,7 @@ export default function EpenaLaw() {
       </section>
 
       {/* Gateway: timeline + map */}
-      <section className="mt-14 bg-neutral-100 py-12 sm:mt-16 sm:py-16">
+      <section className="mt-14 bg-paper py-12 sm:mt-16 sm:py-16">
         <div className="mx-auto max-w-5xl px-5 sm:px-8">
           <h2 className="text-2xl font-semibold text-ink">{gateway.heading}</h2>
 
@@ -128,10 +128,10 @@ export default function EpenaLaw() {
                   {i < gateway.points.length - 1 && (
                     <span
                       aria-hidden="true"
-                      className="absolute left-3 top-9 h-[calc(100%+20px)] w-px bg-neutral-300"
+                      className="absolute left-3 top-9 h-[calc(100%+20px)] w-px bg-line"
                     />
                   )}
-                  <span className="relative z-10 mt-6 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-white text-brand shadow-sm">
+                  <span className="relative z-10 mt-6 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line bg-white text-brand shadow-sm">
                     <Check size={12} strokeWidth={3} />
                   </span>
                   <p className="flex-1 bg-white p-4 text-xs leading-relaxed text-ink-soft shadow-md">

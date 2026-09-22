@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { sanityClient, sanityConfigured } from "../lib/sanity/client";
 
-// Fetches a GROQ query on mount (and whenever params change).
-// Returns { data, loading, error, configured } — `configured` is false until
-// real Sanity credentials are in .env, so callers can show a helpful state
-// instead of a raw fetch error.
 export function useSanityQuery(query, params = {}) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);

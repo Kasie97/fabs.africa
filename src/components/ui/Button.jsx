@@ -1,7 +1,8 @@
+// Inside src/components/ui/Button.jsx
 import { Link } from "react-router-dom";
 
 const base =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-semibold transition duration-150 focus-visible:outline-2";
+  "inline-flex items-center justify-center gap-2 px-6 py-3 text-[15px] font-semibold rounded-lg transition duration-150 focus-visible:outline-2";
 
 const variants = {
   primary: "bg-gradient-to-r from-brand to-accent text-white hover:brightness-110",

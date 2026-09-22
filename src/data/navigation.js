@@ -1,38 +1,19 @@
+// Inside src/data/navigation.js
 // Central nav model — drives desktop dropdowns, mobile accordion, and route stubs.
-// Mirrors the structure of fabs.africa.
 
 export const NEWSLETTER_PATH = "/insights/newsletter";
+export const BLOG_PATH = "/insights/blog";
 
 export const nav = [
-  {
-    label: "About",
-    path: "/about",
-    children: [
-      { label: "About FABS", path: "/about" },
-      { label: "Contact Us", path: "/about/contact-us" },
-    ],
-  },
+  { label: "About", path: "/about", children: null },
   { label: "Epena Law", path: "/epena-law", children: null },
-  {
-    label: "Road To FABS 2025",
-    path: "/road-to-fabs-2025",
-    children: [
-      { label: "DRC – Sip & Learn", path: "/road-to-fabs-2025/drc-sip-and-learn" },
-    ],
-  },
-  {
-    label: "FABS 2025",
-    path: "/fabs-2025",
-    children: [
-      { label: "Why Lagos?", path: "/fabs-2025/why-lagos" },
-      { label: "Speakers", path: "/fabs-2025/speakers" },
-      { label: "Travel", path: "/fabs-2025/travel" },
-    ],
-  },
   {
     label: "Insights",
     path: "/insights",
-    children: [{ label: "Newsletter", path: NEWSLETTER_PATH }],
+    children: [
+      { label: "Newsletter", path: NEWSLETTER_PATH },
+      { label: "Blog", path: BLOG_PATH },
+    ],
   },
   {
     label: "Resources",
@@ -41,15 +22,39 @@ export const nav = [
       { label: "Photo Gallery", path: "/resources/photo-gallery" },
       { label: "Video Gallery", path: "/resources/video-gallery" },
       { label: "Epena Company Profile", path: "/resources/epena-company-profile" },
+      { label: "Travel", path: "/resources/travel" },
+      { label: "Accommodation", path: "/resources/accommodation" },
+      // Moved here from Past Events > FABS 2024.
+      { label: "Sponsorship", path: "/resources/sponsorship" },
     ],
   },
   {
     label: "Past Events",
     path: "/past-events",
-    children: [{ label: "FABS 2024", path: "/past-events/fabs-2024" }],
+    children: [
+      {
+        label: "FABS 2024",
+        path: "/past-events/fabs-2024",
+        children: [
+          { label: "Speakers", path: "/past-events/fabs-2024/speakers" },
+          { label: "Main Program", path: "/past-events/fabs-2024/main-program" },
+          { label: "Side Events Program", path: "/past-events/fabs-2024/side-events-program" },
+        ],
+      },
+      { label: "Road To FABS 2025", path: "/past-events/fabs-2025/road-to-fabs-2025" },
+      {
+        label: "FABS 2025",
+        path: "/past-events/fabs-2025/fabs-2025",
+        children: [
+          { label: "Why Lagos?", path: "/past-events/fabs-2025/fabs-2025/why-lagos" },
+          { label: "Sponsors", path: "/past-events/fabs-2025/fabs-2025/sponsors" },
+        ],
+      },
+    ],
   },
 ];
 
+export const contactLink = { label: "Contact Us", path: "/contact-us" };
 export const registerLink = { label: "Register", path: "/register" };
 
 export const contactInfo = {
@@ -67,16 +72,17 @@ export const socialLinks = [
 
 export const footerAbout = [
   { label: "About FABS", path: "/about" },
-  { label: "Contact Us", path: "/about/contact-us" },
+  { label: "Contact Us", path: "/contact-us" },
   { label: "Epena Law", path: "/epena-law" },
   { label: "Register", path: "/register" },
 ];
 
 export const footerExplore = [
-  { label: "Why Lagos?", path: "/fabs-2025/why-lagos" },
-  { label: "Speakers", path: "/fabs-2025/speakers" },
-  { label: "Travel", path: "/fabs-2025/travel" },
+  { label: "FABS 2025", path: "/past-events/fabs-2025/fabs-2025" },
+  { label: "Road To FABS 2025", path: "/past-events/fabs-2025/road-to-fabs-2025" },
+  { label: "Past Events", path: "/past-events" },
   { label: "Newsletter", path: NEWSLETTER_PATH },
+  { label: "Blog", path: BLOG_PATH },
 ];
 
 // Placeholder page copy for generic stub pages, keyed by path.
@@ -86,45 +92,10 @@ export const pageContent = {
     title: "About the Francophone Africa Business Summit",
     intro: "Amplifying Growth in Africa: From Momentum to Scale.",
   },
-  "/about/contact-us": {
-    eyebrow: "About",
-    title: "Contact us",
-    intro: "Reach the FABS team at info@fabs.africa or +237 676 66 14 54.",
-  },
   "/epena-law": {
     eyebrow: "Epena Law",
     title: "Epena Law",
     intro: "Learn more about Epena Law and its connection to the summit.",
-  },
-  "/road-to-fabs-2025": {
-    eyebrow: "Road To FABS 2025",
-    title: "The road to FABS 2025",
-    intro: "Events and conversations leading up to the summit in Lagos.",
-  },
-  "/road-to-fabs-2025/drc-sip-and-learn": {
-    eyebrow: "Road To FABS 2025",
-    title: "DRC – Sip & Learn",
-    intro: "Details of the DRC Sip & Learn session on the road to FABS 2025.",
-  },
-  "/fabs-2025": {
-    eyebrow: "FABS 2025",
-    title: "Francophone Africa Business Summit 2025",
-    intro: "Lagos, Nigeria — February 18th – 19th, 2025. Venue: Lagos Continental Hotel.",
-  },
-  "/fabs-2025/why-lagos": {
-    eyebrow: "FABS 2025",
-    title: "Why Lagos?",
-    intro: "Why Lagos is the right host city for this edition of the summit.",
-  },
-  "/fabs-2025/speakers": {
-    eyebrow: "FABS 2025",
-    title: "Speakers",
-    intro: "Meet the voices joining us on stage.",
-  },
-  "/fabs-2025/travel": {
-    eyebrow: "FABS 2025",
-    title: "Travel",
-    intro: "Everything you need to plan your trip to Lagos.",
   },
   "/resources": {
     eyebrow: "Resources",
@@ -149,12 +120,37 @@ export const pageContent = {
   "/past-events": {
     eyebrow: "Past Events",
     title: "Past events",
-    intro: "Look back at previous editions of the summit.",
+    intro: "Look back at previous editions of the Francophone Africa Business Summit — from FABS 2024 through FABS 2025.",
   },
   "/past-events/fabs-2024": {
     eyebrow: "Past Events",
     title: "FABS 2024",
     intro: "Highlights and resources from the 2024 edition.",
+  },
+  "/past-events/fabs-2025": {
+    eyebrow: "Past Events",
+    title: "FABS 2025",
+    intro: "Explore the Road to FABS 2025 build-up events and the FABS 2025 summit itself, both now part of our past events archive.",
+  },
+  "/past-events/fabs-2025/road-to-fabs-2025": {
+    eyebrow: "Past Events · FABS 2025",
+    title: "The road to FABS 2025",
+    intro: "Events and conversations that led up to the summit in Lagos.",
+  },
+  "/past-events/fabs-2025/road-to-fabs-2025/drc-sip-and-learn": {
+    eyebrow: "Past Events · FABS 2025",
+    title: "DRC – Sip & Learn",
+    intro: "Details of the DRC Sip & Learn session on the road to FABS 2025.",
+  },
+  "/past-events/fabs-2025/fabs-2025": {
+    eyebrow: "Past Events · FABS 2025",
+    title: "Francophone Africa Business Summit 2025",
+    intro: "Lagos, Nigeria — February 18th – 19th, 2025. Venue: Lagos Continental Hotel.",
+  },
+  "/contact-us": {
+    eyebrow: "Contact",
+    title: "Contact us",
+    intro: "Reach the FABS team at info@fabs.africa or +237 676 66 14 54.",
   },
   "/register": {
     eyebrow: "Register",

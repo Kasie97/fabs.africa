@@ -55,7 +55,7 @@ export default function GenericPage() {
               <p className="text-sm text-ink-soft leading-relaxed mb-4">
                 Get in touch with the team for registration, media or partnership enquiries.
               </p>
-              <Button to="/about/contact-us" variant="outline" className="w-full">
+              <Button to="/contact-us" variant="outline" className="w-full">
                 Contact us
               </Button>
             </aside>

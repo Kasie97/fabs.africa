@@ -1,9 +1,10 @@
+// Inside src/components/home/UpdatesGrid.jsx
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import Button from "../ui/Button";
 import UpdateCard from "./UpdateCard";
 import { updates } from "../../data/updates";
-import { NEWSLETTER_PATH } from "../../data/navigation";
+import { BLOG_PATH } from "../../data/navigation";
 
 export default function UpdatesGrid() {
   return (
@@ -13,8 +14,8 @@ export default function UpdatesGrid() {
           eyebrow="What's new"
           title="The latest from the Francophone Africa Business Summit"
           action={
-            <Button to={NEWSLETTER_PATH} variant="outline">
-              View the newsletter
+            <Button to={BLOG_PATH} variant="outline">
+              Go to Blog
             </Button>
           }
         />

@@ -12,14 +12,14 @@ function formatDate(dateString) {
   });
 }
 
-export default function BlogCard({ post }) {
+export default function BlogCard({ post, basePath = NEWSLETTER_PATH }) {
   const imageSrc = post.mainImage
     ? urlFor(post.mainImage).width(640).height(400).url()
     : "/media/placeholder.png";
 
   return (
     <Link
-      to={`${NEWSLETTER_PATH}/${post.slug}`}
+      to={`${basePath}/${post.slug}`}
       className="group flex flex-col bg-white border border-line border-t-4 border-t-brand overflow-hidden h-full transition-colors hover:bg-paper"
     >
       <div className="aspect-[16/10] overflow-hidden bg-paper">

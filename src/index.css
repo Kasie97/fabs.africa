@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-ink: #151111;
+  --color-ink-soft: #4B4545;
+  --color-paper: #FAF6F2;
+  --color-line: #E9E3DD;
+  --color-brand: #93302F;
+  --color-brand-dark: #7A2524;
+  --color-brand-light: #A83B39;
+  --color-accent: #E8963A;
+  --color-accent-dark: #B8661A;
+}
+
 @font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-300.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
 @font-face { font-family: "Museo Sans"; src: url("/fonts/MuseoSans-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
@@ -13,11 +25,15 @@ html {
 
 body {
   @apply bg-white text-ink font-sans antialiased;
+  /* Guards against any decorative/absolutely-positioned element (dot
+     patterns, hero clip-paths, dropdown flyouts) causing a horizontal
+     scrollbar on small screens. */
+  overflow-x: hidden;
 }
 
 ::selection {
-  background-color: #E8963A;
-  color: #151111;
+  background-color: var(--color-accent);
+  color: var(--color-ink);
 }
 
 /* Visible keyboard focus */
@@ -25,7 +41,7 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 2px solid #E8963A;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 

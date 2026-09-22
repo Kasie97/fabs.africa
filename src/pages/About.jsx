@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Photo from "../components/ui/Photo";
+import { colors, withAlpha } from "../theme/colors";
 import {
   aboutHero,
   overview,
@@ -6,17 +8,6 @@ import {
   attendeesHeading,
   attendees,
 } from "../data/about";
-
-// Image that never leaves an empty hole: shows a brand gradient (or nothing, if `bare`) on error.
-function Photo({ src, alt = "", className = "", bare = false }) {
-  const [ok, setOk] = useState(true);
-  if (!ok) {
-    return bare ? null : (
-      <div aria-hidden="true" className={`bg-gradient-to-br from-brand to-accent ${className}`} />
-    );
-  }
-  return <img src={src} alt={alt} onError={() => setOk(false)} className={className} />;
-}
 
 function AttendeeLogo({ name, logo }) {
   const [ok, setOk] = useState(true);
@@ -71,7 +62,7 @@ export default function About() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/2 lg:block"
           style={{
-            backgroundImage: "radial-gradient(circle, #d4d4d4 1.6px, transparent 1.7px)",
+            backgroundImage: `radial-gradient(circle, ${withAlpha(colors.ink, 0.15)} 1.6px, transparent 1.7px)`,
             backgroundSize: "16px 16px",
             WebkitMaskImage: "radial-gradient(ellipse at 20% 40%, black 0%, transparent 70%)",
             maskImage: "radial-gradient(ellipse at 20% 40%, black 0%, transparent 70%)",
@@ -123,9 +114,9 @@ export default function About() {
         </div>
       </section>
 
-      {/* Amplifying Growth: grey panel */}
+      {/* Amplifying Growth: soft panel */}
       <section className="px-5 pb-14 sm:px-8 sm:pb-20">
-        <div className="mx-auto max-w-5xl bg-neutral-100 px-6 py-8 sm:px-10 sm:py-10">
+        <div className="mx-auto max-w-5xl bg-paper px-6 py-8 sm:px-10 sm:py-10">
           <h2 className="text-center text-xl font-semibold text-ink sm:text-2xl">
             {amplifying.heading}
           </h2>

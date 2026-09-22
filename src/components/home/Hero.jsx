@@ -1,12 +1,12 @@
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 
-const links = [
-  { label: "Why Lagos?", to: "/fabs-2025/why-lagos" },
-  { label: "Meet the speakers", to: "/fabs-2025/speakers" },
-  { label: "Plan your travel", to: "/fabs-2025/travel" },
-  { label: "Road To FABS 2025", to: "/road-to-fabs-2025" },
-];
+// const links = [
+//   { label: "Why Lagos?", to: "/past-events/fabs-2025/fabs-2025/why-lagos" },
+//   { label: "Meet the speakers", to: "/past-events/fabs-2025/fabs-2025/speakers" },
+//   { label: "Plan your travel", to: "/past-events/fabs-2025/fabs-2025/travel" },
+//   { label: "Road To FABS 2025", to: "/past-events/fabs-2025/road-to-fabs-2025" },
+// ];
 
 export default function Hero() {
   return (
@@ -33,10 +33,7 @@ export default function Hero() {
       />
 
       {/* Brand-colored tint over the video/image for legibility */}
-      <div
-        className="absolute inset-0 bg-deep/55"
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-ink/55" aria-hidden="true" />
 
       <div className="relative py-11 sm:py-14 lg:py-20">
         <Container>
@@ -45,8 +42,7 @@ export default function Hero() {
             <div
               className="relative bg-accent/90 border-l-4 border-white px-6 py-7 sm:px-9 sm:py-10"
               style={{
-                clipPath:
-                  "polygon(0 0, 100% 0, 100% 78%, 88% 100%, 0 100%)",
+                clipPath: "polygon(0 0, 100% 0, 100% 78%, 88% 100%, 0 100%)",
               }}
             >
               <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.1] text-white">
@@ -75,7 +71,7 @@ export default function Hero() {
         </Container>
       </div>
 
-      <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/15 max-w-5xl mx-auto text-left">
+      {/* <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/15 max-w-5xl mx-auto text-left">
         {links.map((l) => (
           <li key={l.label} className="bg-ink">
             <Button
@@ -87,7 +83,7 @@ export default function Hero() {
             </Button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </section>
   );
 }

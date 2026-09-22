@@ -1,8 +1,10 @@
+import { colors } from "../theme/colors";
+
 // All copy for the home page lives here. Edit text and links without touching components.
 // Paths point at routes that exist in your nav; repoint them as you build real pages.
 
 export const heroContent = {
-  image: "/media/placeholder.png", // change to your hero image filename
+  image: "/media/placeholder.png",
   headline: "Enabling private capital investment in Africa",
   cta: { label: "Become a member", to: "/register" },
 };
@@ -15,7 +17,7 @@ export const introContent = {
     { label: "Benefits of AVCA Membership", to: "/register" },
     { label: "Meet the Leadership Team", to: "/about" },
     { label: "Discover our Data & Intelligence", to: "/resources" },
-    { label: "Explore our Events & Training Opportunities", to: "/fabs-2025" },
+    { label: "Explore our Events & Training Opportunities", to: "/past-events/fabs-2025" },
   ],
 };
 
@@ -27,36 +29,39 @@ export const membershipContent = {
   cta: { label: "Why become an AVCA member?", to: "/register" },
 };
 
+// Backgrounds are pulled from the central brand palette (src/theme/colors.js)
+// instead of one-off hex values, so this carousel always matches the rest of
+// the site.
 export const statsContent = [
   {
     value: "50+",
     label: "Speakers",
     description: "Expert panels unlocking insights on investment, trade, legal frameworks.",
-    bg: "#8B2E2E",
+    bg: colors.brand,
   },
   {
     value: "250+",
     label: "Attendees",
     description: "Leaders, innovators, and decision-makers shaping Africa's economic future.",
-    bg: "#D98A2B",
+    bg: colors.accent,
   },
   {
     value: "15+",
     label: "Partners and sponsors",
     description: "Strategic collaborations driving regional growth and development.",
-    bg: "#8B2E2E",
+    bg: colors.brand,
   },
   {
     value: "10+",
     label: "Countries represented",
     description: "Diverse participation from across Francophone Africa and beyond.",
-    bg: "#D98A2B",
+    bg: colors.accent,
   },
   {
     value: "10+",
     label: "Panel Sessions",
     description: "In-depth discussions on critical issues shaping the continent's business landscape.",
-    bg: "#8B2E2E",
+    bg: colors.brand,
   },
 ];
 
