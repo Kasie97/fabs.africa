@@ -3,13 +3,13 @@
 
 export const aboutHero = {
   title: "About the Francophone Africa Business Summit (FABS)",
-  image: "/media/about-hero.jpg",
+  image: "/media/Sponosor I.JPG",
 };
 
 export const overview = {
   heading: "Francophone Africa Business Summit",
-  portrait: { src: "/media/about-speaker.jpg", alt: "Speaker addressing the summit" },
-  handshake: { src: "/media/about-handshake.jpg", alt: "Business partners shaking hands" },
+  portrait: { src: "/media/OBJ00110.jpeg", alt: "Speaker addressing the summit" },
+  handshake: { src: "/media/conract-us.jpg", alt: "Business partners shaking hands" },
   paragraphs: [
     "Africa is home to over 300 million French speakers – the largest French-speaking population globally. Francophone countries make up 21 of the continent's 55 nations, creating immense potential for trade and cross-border investment.",
     "While interest from companies in English speaking Africa continues growing across sectors like finance, mining, and technology, prospective investors still face significant barriers, ranging from unfamiliarity with the regulatory systems, cross-border legal differences, and not least limited knowledge of the business environments and communities across markets.",
@@ -19,7 +19,7 @@ export const overview = {
     "To foster more seamless, mutually beneficial deals between these two “worlds”, Epena Law launches the pioneering Francophone Africa Business Summit in Lagos, Nigeria convening business leaders, senior policymakers and investors from economic powerhouses like Nigeria, Ivory Coast, Cameroon, Senegal, DRC and beyond.",
   brochure: {
     label: "Download our brochure",
-    href: "/media/fabs-2025-brochure.pdf", // put the PDF in public/media/
+    href: "public/media/FABS-2025-BROCHURE-EN.pdf", // put the PDF in public/media/
   },
 };
 

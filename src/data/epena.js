@@ -8,10 +8,13 @@ export const epenaIntro = {
   body: "Through our deep understanding of both civil and common laws system, we are able to seamlessly navigate through the various legal systems in Africa. We serve the needs of corporates, investment funds, growth companies and financial institutions by providing advisory services on a wide range of corporate and commercial transactions. Our core focus is Africa, where we have uniquely deep roots and knowledge of markets, regulations and key players.",
   callout:
     "We are passionate about innovation and are committed to working with our clients to deliver commercially driven legal solutions tailored to their businesses, disrupting traditional law firm models. We believe that innovation drives diversity and inclusion.",
-  readMore: { label: "Read more", href: "#" },
+  readMore: {
+    label: "Download PDF",
+    href: "/media/Epena-Law-Company-Profile-Eng.pdf",
+  },
   badge: { value: "39+", line1: "Years of", line2: "Cumulative Experiences" },
-  imageTop: { src: "/media/epena-buildings.jpg", alt: "Glass skyscrapers seen from below" },
-  imageBottom: { src: "/media/epena-chess.jpg", alt: "Chess pieces stepping up a set of blocks" },
+  imageTop: { src: "public/media/about-epena.png", alt: "Glass skyscrapers seen from below" },
+  imageBottom: { src: "public/media/about-epena2.png", alt: "Chess pieces stepping up a set of blocks" },
 };
 
 export const epenaStats = [
@@ -47,7 +50,7 @@ export const gateway = {
     "Through representations and a presence embedded in key African markets like Cameroon, Côte d'Ivoire, Benin and Nigeria plus affiliations with premier law firms across Senegal, DRC and more, we serve as the gateway connecting international investors to the yet untapped opportunities across the Francophone sphere.",
   ],
   map: {
-    src: "/media/epena-map.png",
+    src: "public/media/EPENA-MAP-scaled.webp",
     alt: "Map of Africa showing Epena Law's offices, representations and transactions",
     showLegend: true,
   },

@@ -5,6 +5,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import EpenaLaw from "./pages/EpenaLaw";
+import Contact from "./pages/Contact";
 import GenericPage from "./pages/GenericPage";
 import BlogListing from "./pages/BlogListing";
 import BlogPost from "./pages/BlogPost";
@@ -51,6 +52,7 @@ secondaryPaths.delete(BLOG_PATH);
 // These pages have their own dedicated components below.
 secondaryPaths.delete("/about");
 secondaryPaths.delete("/epena-law");
+secondaryPaths.delete(contactLink.path);
 secondaryPaths.delete("/resources/accommodation");
 secondaryPaths.delete("/resources/travel");
 secondaryPaths.delete("/resources/sponsorship");
@@ -77,6 +79,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/epena-law" element={<EpenaLaw />} />
+          <Route path={contactLink.path} element={<Contact />} />
           <Route path="/insights" element={<Navigate to={NEWSLETTER_PATH} replace />} />
 
           <Route path={NEWSLETTER_PATH} element={<Newsletter />} />

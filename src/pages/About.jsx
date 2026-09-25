@@ -40,7 +40,7 @@ export default function About() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[380px] items-center justify-center overflow-hidden bg-gradient-to-br from-ink via-brand-dark to-ink sm:min-h-[460px] lg:min-h-[540px]">
+      <section className="relative flex min-h-[380px] items-center justify-center overflow-hidden bg-gradient-to-br from-ink via-brand-dark to-ink sm:min-h-[460px] lg:min-h-[300px]">
         <Photo
           src={aboutHero.image}
           bare
@@ -71,15 +71,15 @@ export default function About() {
 
         <div className="relative mx-auto grid max-w-5xl items-start gap-10 px-5 sm:px-8 md:grid-cols-2">
           {/* Overlapping photo frames */}
-          <div className="relative mx-auto aspect-[6/7] w-full max-w-[420px]">
-            <div className="absolute left-0 top-0 h-full w-[65%] bg-white p-1.5 shadow-lg ring-1 ring-black/5">
+          <div className="relative mx-auto aspect-[6/7] w-full max-w-[504px]">
+            <div className="absolute left-0 top-0 h-full w-[65%] bg-white p-1 shadow-lg ring-1 ring-black/5">
               <Photo
                 src={overview.portrait.src}
                 alt={overview.portrait.alt}
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className="absolute right-0 top-[32%] h-[54%] w-[50%] bg-white p-1.5 shadow-lg ring-1 ring-black/5">
+            <div className="absolute right-0 top-[32%] h-[54%] w-[50%] bg-white p-1 shadow-lg ring-1 ring-black/5">
               <Photo
                 src={overview.handshake.src}
                 alt={overview.handshake.alt}
