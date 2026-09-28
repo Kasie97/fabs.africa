@@ -9,8 +9,6 @@
 export const NEWSLETTER_PATH = "/insights/newsletter";
 export const BLOG_PATH = "/insights/blog";
 
-// Single source of truth for pages that have their own dedicated component.
-// App.jsx imports these, so the nav links and the router can never drift apart.
 export const ROUTES = {
   about: "/about",
   epenaLaw: "/epena-law",
@@ -54,31 +52,36 @@ export const nav = [
       // { label: "Epena Company Profile", path: "/resources/epena-company-profile" },
       { label: "Travel", path: ROUTES.travel },
       { label: "Accommodation", path: ROUTES.accommodation },
-      // Moved here from Past Events > FABS 2024.
       { label: "Sponsorship", path: ROUTES.sponsorship },
     ],
   },
   {
     label: "Past Events",
     path: "/past-events",
-    // Set to true if you want the Past Events archive page reachable by clicking.
     clickable: false,
     children: [
       {
         label: "FABS 2024",
         path: "/past-events/fabs-2024",
-        clickable: false, // dropdown only, no navigation
+        clickable: false,
         children: [
           { label: "Speakers", path: ROUTES.fabs2024Speakers },
           { label: "Main Program", path: ROUTES.fabs2024MainProgram },
           { label: "Side Events Program", path: ROUTES.fabs2024SideEvents },
         ],
       },
-      { label: "Road To FABS 2025", path: ROUTES.roadToFabs2025 },
+      {
+        label: "Road To FABS 2025",
+        path: ROUTES.roadToFabs2025,
+        clickable: true, // navigates AND opens the dropdown
+        children: [
+          { label: "DRC - Sip and Learn", path: ROUTES.drcSipAndLearn },
+        ],
+      },
       {
         label: "FABS 2025",
         path: ROUTES.fabs2025Summit,
-        clickable: false, // dropdown only, no navigation
+        clickable: false,
         children: [
           { label: "Why Lagos?", path: ROUTES.fabs2025WhyLagos },
           { label: "Speakers", path: ROUTES.fabs2025Speakers },
@@ -88,12 +91,9 @@ export const nav = [
   },
 ];
 
-// True if the item has a dropdown/submenu.
 export const hasChildren = (item) =>
   Array.isArray(item.children) && item.children.length > 0;
 
-// True if the item should navigate when clicked.
-// Items without children are always links; parents follow their `clickable` flag.
 export const isNavLink = (item) => !hasChildren(item) || item.clickable === true;
 
 export const contactLink = { label: "Contact Us", path: ROUTES.contact };
@@ -127,7 +127,6 @@ export const footerExplore = [
   { label: "Blog", path: BLOG_PATH },
 ];
 
-// Placeholder page copy for generic stub pages, keyed by path.
 export const pageContent = {
   "/about": {
     eyebrow: "About",

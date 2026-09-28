@@ -19,16 +19,25 @@ import Container from "../ui/Container";
 import SocialLinks from "../ui/SocialIcons";
 import MobileNav from "./MobileNav";
 
-const rowClass =
-  "block rounded-lg px-4 py-2.5 text-[14px] font-medium text-ink whitespace-nowrap transition-colors hover:bg-brand/5 hover:text-brand";
+// Colour rules for items that have a dropdown:
+//   clickable     -> yellow
+//   not clickable -> grey (opens the dropdown only)
+const CLICKABLE_TONE = "text-accent hover:bg-accent/10";
+const MUTED_TONE = "text-ink-soft hover:bg-black/[0.04]";
 
+const rowBase =
+  "block rounded-lg px-4 py-2.5 text-[14px] font-medium whitespace-nowrap transition-colors";
+
+// Plain leaf link
+const rowClass = `${rowBase} text-ink hover:bg-brand/5 hover:text-brand`;
+
+// A single dropdown row. Three cases:
+//  1. no children             -> plain link
+//  2. children + clickable    -> yellow link that also opens a flyout
+//  3. children, not clickable -> grey button that only opens the flyout
 const dropdownPanel =
   "rounded-2xl border border-line bg-white p-2 shadow-2xl ring-1 ring-black/5";
 
-// A single dropdown row. Three cases:
-//  1. no children            -> plain link
-//  2. children + clickable   -> link that also opens a flyout on hover
-//  3. children, not clickable -> button that only opens the flyout
 function DropdownChild({ child, onNavigate }) {
   const [subOpen, setSubOpen] = useState(false);
   const closeTimer = useRef(null);
@@ -53,13 +62,16 @@ function DropdownChild({ child, onNavigate }) {
     );
   }
 
+  const clickable = isNavLink(child);
+  const tone = clickable ? CLICKABLE_TONE : MUTED_TONE;
+  const flexRow = `flex w-full items-center justify-between gap-4 text-left ${rowBase} ${tone}`;
+
   const rowContent = (
     <>
       {child.label}
-      <ChevronRight size={14} className="text-ink-soft" />
+      <ChevronRight size={14} className="opacity-70" />
     </>
   );
-  const flexRow = `flex w-full items-center justify-between gap-4 text-left ${rowClass}`;
 
   return (
     <li
@@ -67,7 +79,7 @@ function DropdownChild({ child, onNavigate }) {
       onMouseEnter={openSub}
       onMouseLeave={scheduleCloseSub}
     >
-      {isNavLink(child) ? (
+      {clickable ? (
         <Link to={child.path} className={flexRow} onClick={onNavigate}>
           {rowContent}
         </Link>
@@ -115,19 +127,16 @@ export default function Header() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Lock body scroll while the mobile drawer is open.
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
-  // Close any open dropdown when the route changes.
   useEffect(() => {
     setOpenIndex(null);
   }, [pathname]);
 
-  // Close dropdown with Escape.
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") setOpenIndex(null);
@@ -136,7 +145,6 @@ export default function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Add a shadow and glass effect once the page scrolls.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -153,12 +161,15 @@ export default function Header() {
     closeTimer.current = setTimeout(() => setOpenIndex(null), 120);
   };
 
-  const topClass = (active) =>
-    `relative flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
-      active
-        ? "bg-brand/10 text-brand"
-        : "text-ink hover:bg-black/[0.04] hover:text-brand"
-    }`;
+  // tone: "plain" (no dropdown), "clickable" (yellow), "muted" (grey)
+  const topClass = (active, tone = "plain") => {
+    const base =
+      "relative flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors";
+    if (active) return `${base} bg-brand/10 text-brand`;
+    if (tone === "clickable") return `${base} ${CLICKABLE_TONE}`;
+    if (tone === "muted") return `${base} ${MUTED_TONE}`;
+    return `${base} text-ink hover:bg-black/[0.04] hover:text-brand`;
+  };
 
   return (
     <header
@@ -168,7 +179,7 @@ export default function Header() {
           : "bg-white"
       }`}
     >
-      {/* Contact bar: hidden below xl to save space */}
+      {/* Contact bar */}
       <div
         className={`hidden overflow-hidden bg-gradient-to-r from-brand-dark via-brand to-brand-dark text-white transition-all duration-300 xl:block ${
           scrolled ? "max-h-0" : "max-h-14"
@@ -222,7 +233,6 @@ export default function Header() {
               scrolled ? "h-16 xl:h-[72px]" : "h-20 xl:h-24"
             }`}
           >
-            {/* Logo */}
             <Link
               to="/"
               className="shrink-0"
@@ -245,7 +255,6 @@ export default function Header() {
               {nav.map((item, idx) => {
                 const hasMenu = !!item.children?.length;
                 const isOpen = openIndex === idx;
-                // A section is "active" when the current page lives inside it.
                 const sectionActive =
                   pathname === item.path ||
                   pathname.startsWith(item.path + "/");
@@ -264,7 +273,9 @@ export default function Header() {
                     {isNavLink(item) ? (
                       <NavLink
                         to={item.path}
-                        className={({ isActive }) => topClass(isActive)}
+                        className={({ isActive }) =>
+                          topClass(isActive, hasMenu ? "clickable" : "plain")
+                        }
                         aria-expanded={hasMenu ? isOpen : undefined}
                         aria-haspopup={hasMenu ? true : undefined}
                       >
@@ -281,7 +292,7 @@ export default function Header() {
                     ) : (
                       <button
                         type="button"
-                        className={topClass(sectionActive)}
+                        className={topClass(sectionActive, "muted")}
                         aria-expanded={isOpen}
                         aria-haspopup="true"
                         onClick={() => setOpenIndex(isOpen ? null : idx)}
@@ -302,7 +313,6 @@ export default function Header() {
                         className="absolute left-0 top-full min-w-[230px] pt-3 animate-fade-up"
                         style={{ animationDuration: "0.15s" }}
                       >
-                        {/* Little arrow pointing at the trigger */}
                         <span
                           aria-hidden="true"
                           className="absolute left-7 top-[5px] h-3 w-3 rotate-45 rounded-sm border-l border-t border-line bg-white"
@@ -322,7 +332,6 @@ export default function Header() {
                 );
               })}
 
-              {/* Contact Us: plain link, no dropdown */}
               <NavLink
                 to={contactLink.path}
                 className={({ isActive }) => topClass(isActive)}
@@ -357,7 +366,6 @@ export default function Header() {
         </Container>
       </div>
 
-      {/* Mobile navigation */}
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );

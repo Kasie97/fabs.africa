@@ -18,6 +18,8 @@ import Travel from "./pages/Travel";
 import SideEventsProgram from "./pages/SideEventsProgram";
 import SponsorsPage from "./pages/SponsorsPage";
 import MainProgramPage from "./pages/MainProgramPage";
+import RoadToFabs2025 from "./pages/RoadToFabs2025";
+import DrcSipAndLearn from "./pages/DrcSipAndLearn";
 import {
   nav,
   registerLink,
@@ -27,7 +29,6 @@ import {
   ROUTES,
 } from "./data/navigation";
 
-// Flatten the (possibly nested) nav model into a unique list of secondary routes.
 function collectPaths(items, set) {
   items.forEach((item) => {
     set.add(item.path);
@@ -42,13 +43,11 @@ collectPaths(nav, secondaryPaths);
 secondaryPaths.add(registerLink.path);
 secondaryPaths.add(contactLink.path);
 
-// Content pages linked directly from the homepage Hero rather than a dropdown.
 [ROUTES.drcSipAndLearn].forEach((path) => secondaryPaths.add(path));
 
-// Paths that have their own dedicated <Route> below, so they must NOT also be
-// registered as generic stub pages. All values come from the shared ROUTES map.
+// Paths with their own dedicated <Route> must NOT also be generic stub pages.
 [
-  "/insights", // redirects to the newsletter
+  "/insights",
   NEWSLETTER_PATH,
   BLOG_PATH,
   ROUTES.about,
@@ -62,6 +61,8 @@ secondaryPaths.add(contactLink.path);
   ROUTES.fabs2024SideEvents,
   ROUTES.fabs2025WhyLagos,
   ROUTES.fabs2025Speakers,
+  ROUTES.roadToFabs2025,
+  ROUTES.drcSipAndLearn,
 ].forEach((path) => secondaryPaths.delete(path));
 
 function ScrollToTop() {
@@ -111,6 +112,10 @@ export default function App() {
           <Route path={ROUTES.fabs2024Speakers} element={<Speakers />} />
           <Route path={ROUTES.fabs2024MainProgram} element={<MainProgramPage />} />
           <Route path={ROUTES.fabs2024SideEvents} element={<SideEventsProgram />} />
+
+          {/* Past Events > Road To FABS 2025 */}
+          <Route path={ROUTES.roadToFabs2025} element={<RoadToFabs2025 />} />
+          <Route path={ROUTES.drcSipAndLearn} element={<DrcSipAndLearn />} />
 
           {/* Past Events > FABS 2025 */}
           <Route path={ROUTES.fabs2025WhyLagos} element={<WhyLagos />} />
