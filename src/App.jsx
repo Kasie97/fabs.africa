@@ -12,6 +12,7 @@ import BlogPost from "./pages/BlogPost";
 import Newsletter from "./pages/Newsletter";
 import WhyLagos from "./pages/WhyLagos";
 import Speakers from "./pages/Speakers";
+import Speakers2025 from "./pages/Speakers2025";
 import Accommodation from "./pages/Accommodation";
 import Travel from "./pages/Travel";
 import SideEventsProgram from "./pages/SideEventsProgram";
@@ -23,6 +24,7 @@ import {
   contactLink,
   NEWSLETTER_PATH,
   BLOG_PATH,
+  ROUTES,
 } from "./data/navigation";
 
 // Flatten the (possibly nested) nav model into a unique list of secondary routes.
@@ -41,26 +43,26 @@ secondaryPaths.add(registerLink.path);
 secondaryPaths.add(contactLink.path);
 
 // Content pages linked directly from the homepage Hero rather than a dropdown.
-[
-  "/past-events/fabs-2025/road-to-fabs-2025/drc-sip-and-learn",
-].forEach((path) => secondaryPaths.add(path));
+[ROUTES.drcSipAndLearn].forEach((path) => secondaryPaths.add(path));
 
-// The newsletter and blog have their own routes; /insights redirects to the newsletter.
-secondaryPaths.delete("/insights");
-secondaryPaths.delete(NEWSLETTER_PATH);
-secondaryPaths.delete(BLOG_PATH);
-// These pages have their own dedicated components below.
-secondaryPaths.delete("/about");
-secondaryPaths.delete("/epena-law");
-secondaryPaths.delete(contactLink.path);
-secondaryPaths.delete("/resources/accommodation");
-secondaryPaths.delete("/resources/travel");
-secondaryPaths.delete("/resources/sponsorship");
-secondaryPaths.delete("/past-events/fabs-2024/speakers");
-secondaryPaths.delete("/past-events/fabs-2024/main-program");
-secondaryPaths.delete("/past-events/fabs-2024/side-events-program");
-secondaryPaths.delete("/past-events/fabs-2025/fabs-2025/why-lagos");
-secondaryPaths.delete("/past-events/fabs-2025/fabs-2025/sponsors");
+// Paths that have their own dedicated <Route> below, so they must NOT also be
+// registered as generic stub pages. All values come from the shared ROUTES map.
+[
+  "/insights", // redirects to the newsletter
+  NEWSLETTER_PATH,
+  BLOG_PATH,
+  ROUTES.about,
+  ROUTES.epenaLaw,
+  ROUTES.contact,
+  ROUTES.accommodation,
+  ROUTES.travel,
+  ROUTES.sponsorship,
+  ROUTES.fabs2024Speakers,
+  ROUTES.fabs2024MainProgram,
+  ROUTES.fabs2024SideEvents,
+  ROUTES.fabs2025WhyLagos,
+  ROUTES.fabs2025Speakers,
+].forEach((path) => secondaryPaths.delete(path));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -77,9 +79,9 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/epena-law" element={<EpenaLaw />} />
-          <Route path={contactLink.path} element={<Contact />} />
+          <Route path={ROUTES.about} element={<About />} />
+          <Route path={ROUTES.epenaLaw} element={<EpenaLaw />} />
+          <Route path={ROUTES.contact} element={<Contact />} />
           <Route path="/insights" element={<Navigate to={NEWSLETTER_PATH} replace />} />
 
           <Route path={NEWSLETTER_PATH} element={<Newsletter />} />
@@ -101,25 +103,20 @@ export default function App() {
           />
 
           {/* Resources */}
-          <Route path="/resources/accommodation" element={<Accommodation />} />
-          <Route path="/resources/travel" element={<Travel />} />
-          <Route path="/resources/sponsorship" element={<SponsorsPage year="2024" />} />
+          <Route path={ROUTES.accommodation} element={<Accommodation />} />
+          <Route path={ROUTES.travel} element={<Travel />} />
+          <Route path={ROUTES.sponsorship} element={<SponsorsPage year="2024" />} />
 
           {/* Past Events > FABS 2024 */}
-          <Route path="/past-events/fabs-2024/speakers" element={<Speakers />} />
-          <Route path="/past-events/fabs-2024/main-program" element={<MainProgramPage />} />
-          <Route
-            path="/past-events/fabs-2024/side-events-program"
-            element={<SideEventsProgram />}
-          />
+          <Route path={ROUTES.fabs2024Speakers} element={<Speakers />} />
+          <Route path={ROUTES.fabs2024MainProgram} element={<MainProgramPage />} />
+          <Route path={ROUTES.fabs2024SideEvents} element={<SideEventsProgram />} />
 
           {/* Past Events > FABS 2025 */}
-          <Route path="/past-events/fabs-2025/fabs-2025/why-lagos" element={<WhyLagos />} />
-          <Route
-            path="/past-events/fabs-2025/fabs-2025/sponsors"
-            element={<SponsorsPage year="2025" />}
-          />
+          <Route path={ROUTES.fabs2025WhyLagos} element={<WhyLagos />} />
+          <Route path={ROUTES.fabs2025Speakers} element={<Speakers2025 />} />
 
+          {/* Everything else in the nav renders as a generic stub page */}
           {[...secondaryPaths].map((path) => (
             <Route key={path} path={path} element={<GenericPage />} />
           ))}

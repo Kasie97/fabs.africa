@@ -1,7 +1,7 @@
 // Inside src/data/whyLagos.js
 export const whyLagos = {
   heading: "Why Lagos?",
-  heroImage: "/media/why-lagos-hero.jpg",
+  heroImage: "/media/lagos-kyline.webp",
   points: [
     "Lagos is the undisputed nerve centre between Africa's interconnected Francophone and Anglophone economies. Home to more than 20 million consumers, Lagos is the highest contributor to Nigeria's USD 470 Billion GDP economy.",
     "Generating 65% of Nigeria's international trade, its unmatched combination of financial strength, multinational connectivity and regional influence cement its reputation as Africa's axis for business growth and investment.",

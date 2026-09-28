@@ -1,20 +1,12 @@
+// src/components/home/Hero.jsx
 import Container from "../ui/Container";
-import Button from "../ui/Button";
-
-// const links = [
-//   { label: "Why Lagos?", to: "/past-events/fabs-2025/fabs-2025/why-lagos" },
-//   { label: "Meet the speakers", to: "/past-events/fabs-2025/fabs-2025/speakers" },
-//   { label: "Plan your travel", to: "/past-events/fabs-2025/fabs-2025/travel" },
-//   { label: "Road To FABS 2025", to: "/past-events/fabs-2025/road-to-fabs-2025" },
-// ];
 
 export default function Hero() {
   return (
-    <section className="relative bg-ink text-white overflow-hidden">
-      {/* Desktop/tablet: autoplaying background video. Hidden below lg to avoid
-          shipping video weight to mobile connections. */}
+    <section className="relative overflow-hidden bg-ink text-white">
+      {/* Desktop: autoplaying video. Mobile: poster only (no video payload). */}
       <video
-        className="hidden lg:block absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 hidden h-full w-full object-cover lg:block"
         src="/media/fabsvideo1.mp4"
         poster="/media/placeholder.png"
         autoPlay
@@ -23,67 +15,68 @@ export default function Hero() {
         playsInline
         aria-hidden="true"
       />
-
-      {/* Mobile: static poster image only -- no video payload. */}
       <img
         src="/media/placeholder.png"
         alt=""
         aria-hidden="true"
-        className="lg:hidden absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover lg:hidden"
       />
 
-      {/* Brand-colored tint over the video/image for legibility */}
-      <div className="absolute inset-0 bg-ink/55" aria-hidden="true" />
+      {/* Gradient tint: darker on the left where the text sits */}
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/30"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/60 to-transparent"
+        aria-hidden="true"
+      />
 
-      <div className="relative py-11 sm:py-14 lg:py-20">
+      <div className="relative py-10 sm:py-14 lg:py-[72px]">
         <Container>
-          {/* Diagonal banner box, brand accent color, left border accent */}
-          <div className="max-w-3xl mx-auto lg:mx-0 animate-fade-up">
-            <div
-              className="relative bg-accent/90 border-l-4 border-white px-6 py-7 sm:px-9 sm:py-10"
-              style={{
-                clipPath: "polygon(0 0, 100% 0, 100% 78%, 88% 100%, 0 100%)",
-              }}
+          <div className="animate-fade-up mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur sm:text-[11px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              Lagos, Nigeria · February 18th – 19th, 2025
+            </span>
+
+            <h1 className="mt-4 font-display text-2xl font-bold leading-[1.1] sm:text-4xl lg:text-[42px]">
+              Francophone Africa <span className="text-accent">Business Summit</span> 2025
+            </h1>
+
+            <p className="mt-3 text-base font-medium text-white/90 sm:text-lg">
+              Amplifying Growth in Africa: From Momentum to Scale
+            </p>
+
+            <p className="mt-2 flex items-center justify-center gap-2 text-xs text-white/75 sm:text-sm lg:justify-start">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4 shrink-0 text-accent"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+              Venue: Lagos Continental Hotel
+            </p>
+
+            <a
+              href="/register"
+              className="group mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent/30 transition hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.1] text-white">
-                Francophone Africa Business Summit 2025
-              </h1>
-              <p className="mt-3 text-base sm:text-lg lg:text-xl font-medium text-white">
-                Amplifying Growth in Africa: From Momentum to Scale
-              </p>
-              <p className="mt-2 text-xs sm:text-sm lg:text-base text-white/90">
-                Lagos, Nigeria – February 18th – 19th, 2025
-              </p>
-              <p className="mt-1 text-xs sm:text-sm text-white/90">
-                Venue: Lagos Continental Hotel
-              </p>
-              <div className="mt-4">
-                <Button
-                  to="/register"
-                  variant="ghost"
-                  className="!border !border-white !text-white hover:!bg-white hover:!text-accent"
-                >
-                  Register
-                </Button>
-              </div>
-            </div>
+              Register
+              <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">
+                →
+              </span>
+            </a>
           </div>
         </Container>
       </div>
-
-      {/* <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/15 max-w-5xl mx-auto text-left">
-        {links.map((l) => (
-          <li key={l.label} className="bg-ink">
-            <Button
-              to={l.to}
-              variant="ghost"
-              className="w-full !justify-start !px-5 !py-2.5 !text-white hover:!text-accent h-full text-left"
-            >
-              <span className="text-sm font-medium leading-snug">{l.label}</span>
-            </Button>
-          </li>
-        ))}
-      </ul> */}
     </section>
   );
 }

@@ -6,7 +6,7 @@ export const accommodation = {
       "We have secured a special discounted rate at the Lagos Continental Hotel, our official conference hotel.",
     note: "You can book your stay via the link below",
     cta: { label: "Book now", href: "#" },
-    image: "/media/lagos-continental-hotel.jpg",
+    image: "/media/accomodation1.webp",
   },
   alternatives: {
     heading: "Can't join us at Lagos Continental Hotel?",

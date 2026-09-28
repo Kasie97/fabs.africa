@@ -1,15 +1,44 @@
 // Inside src/data/navigation.js
 // Central nav model — drives desktop dropdowns, mobile accordion, and route stubs.
+//
+// `clickable` only matters for items that have `children`:
+//   false → renders as a button that just opens/closes its dropdown (no navigation)
+//   true  → renders as a link to `path` (and can still show a dropdown)
+// Items without children are always links.
 
 export const NEWSLETTER_PATH = "/insights/newsletter";
 export const BLOG_PATH = "/insights/blog";
 
+// Single source of truth for pages that have their own dedicated component.
+// App.jsx imports these, so the nav links and the router can never drift apart.
+export const ROUTES = {
+  about: "/about",
+  epenaLaw: "/epena-law",
+  contact: "/contact-us",
+  register: "/register",
+
+  accommodation: "/resources/accommodation",
+  travel: "/resources/travel",
+  sponsorship: "/resources/sponsorship",
+
+  fabs2024Speakers: "/past-events/fabs-2024/speakers",
+  fabs2024MainProgram: "/past-events/fabs-2024/main-program",
+  fabs2024SideEvents: "/past-events/fabs-2024/side-events-program",
+
+  fabs2025Summit: "/past-events/fabs-2025/fabs-2025",
+  fabs2025WhyLagos: "/past-events/fabs-2025/why-lagos",
+  fabs2025Speakers: "/past-events/fabs-2025/speakers",
+  roadToFabs2025: "/past-events/fabs-2025/road-to-fabs-2025",
+  drcSipAndLearn: "/past-events/fabs-2025/road-to-fabs-2025/drc-sip-and-learn",
+};
+
 export const nav = [
-  { label: "About", path: "/about", children: null },
-  { label: "Epena Law", path: "/epena-law", children: null },
+  { label: "About", path: ROUTES.about, children: null },
+  { label: "Epena Law", path: ROUTES.epenaLaw, children: null },
   {
     label: "Insights",
     path: "/insights",
+    clickable: false,
     children: [
       { label: "Newsletter", path: NEWSLETTER_PATH },
       { label: "Blog", path: BLOG_PATH },
@@ -18,44 +47,57 @@ export const nav = [
   {
     label: "Resources",
     path: "/resources",
+    clickable: false,
     children: [
       { label: "Photo Gallery", path: "/resources/photo-gallery" },
       { label: "Video Gallery", path: "/resources/video-gallery" },
-      { label: "Epena Company Profile", path: "/resources/epena-company-profile" },
-      { label: "Travel", path: "/resources/travel" },
-      { label: "Accommodation", path: "/resources/accommodation" },
+      // { label: "Epena Company Profile", path: "/resources/epena-company-profile" },
+      { label: "Travel", path: ROUTES.travel },
+      { label: "Accommodation", path: ROUTES.accommodation },
       // Moved here from Past Events > FABS 2024.
-      { label: "Sponsorship", path: "/resources/sponsorship" },
+      { label: "Sponsorship", path: ROUTES.sponsorship },
     ],
   },
   {
     label: "Past Events",
     path: "/past-events",
+    // Set to true if you want the Past Events archive page reachable by clicking.
+    clickable: false,
     children: [
       {
         label: "FABS 2024",
         path: "/past-events/fabs-2024",
+        clickable: false, // dropdown only, no navigation
         children: [
-          { label: "Speakers", path: "/past-events/fabs-2024/speakers" },
-          { label: "Main Program", path: "/past-events/fabs-2024/main-program" },
-          { label: "Side Events Program", path: "/past-events/fabs-2024/side-events-program" },
+          { label: "Speakers", path: ROUTES.fabs2024Speakers },
+          { label: "Main Program", path: ROUTES.fabs2024MainProgram },
+          { label: "Side Events Program", path: ROUTES.fabs2024SideEvents },
         ],
       },
-      { label: "Road To FABS 2025", path: "/past-events/fabs-2025/road-to-fabs-2025" },
+      { label: "Road To FABS 2025", path: ROUTES.roadToFabs2025 },
       {
         label: "FABS 2025",
-        path: "/past-events/fabs-2025/fabs-2025",
+        path: ROUTES.fabs2025Summit,
+        clickable: false, // dropdown only, no navigation
         children: [
-          { label: "Why Lagos?", path: "/past-events/fabs-2025/fabs-2025/why-lagos" },
-          { label: "Sponsors", path: "/past-events/fabs-2025/fabs-2025/sponsors" },
+          { label: "Why Lagos?", path: ROUTES.fabs2025WhyLagos },
+          { label: "Speakers", path: ROUTES.fabs2025Speakers },
         ],
       },
     ],
   },
 ];
 
-export const contactLink = { label: "Contact Us", path: "/contact-us" };
-export const registerLink = { label: "Register", path: "/register" };
+// True if the item has a dropdown/submenu.
+export const hasChildren = (item) =>
+  Array.isArray(item.children) && item.children.length > 0;
+
+// True if the item should navigate when clicked.
+// Items without children are always links; parents follow their `clickable` flag.
+export const isNavLink = (item) => !hasChildren(item) || item.clickable === true;
+
+export const contactLink = { label: "Contact Us", path: ROUTES.contact };
+export const registerLink = { label: "Register", path: ROUTES.register };
 
 export const contactInfo = {
   phone: "+237 676 66 14 54",
@@ -71,15 +113,15 @@ export const socialLinks = [
 ];
 
 export const footerAbout = [
-  { label: "About FABS", path: "/about" },
-  { label: "Contact Us", path: "/contact-us" },
-  { label: "Epena Law", path: "/epena-law" },
-  { label: "Register", path: "/register" },
+  { label: "About FABS", path: ROUTES.about },
+  { label: "Contact Us", path: ROUTES.contact },
+  { label: "Epena Law", path: ROUTES.epenaLaw },
+  { label: "Register", path: ROUTES.register },
 ];
 
 export const footerExplore = [
-  { label: "FABS 2025", path: "/past-events/fabs-2025/fabs-2025" },
-  { label: "Road To FABS 2025", path: "/past-events/fabs-2025/road-to-fabs-2025" },
+  { label: "FABS 2025", path: ROUTES.fabs2025Summit },
+  { label: "Road To FABS 2025", path: ROUTES.roadToFabs2025 },
   { label: "Past Events", path: "/past-events" },
   { label: "Newsletter", path: NEWSLETTER_PATH },
   { label: "Blog", path: BLOG_PATH },

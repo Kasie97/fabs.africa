@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   ChevronDown,
   ChevronRight,
@@ -13,14 +13,22 @@ import {
   registerLink,
   contactLink,
   contactInfo,
+  isNavLink,
 } from "../../data/navigation";
 import Container from "../ui/Container";
 import SocialLinks from "../ui/SocialIcons";
 import MobileNav from "./MobileNav";
 
-// A single dropdown row. Renders as a plain link, or — when it has its own
-// children (e.g. "FABS 2025" inside "Past Events") — as a row that opens a
-// second flyout menu to the right on hover.
+const rowClass =
+  "block rounded-lg px-4 py-2.5 text-[14px] font-medium text-ink whitespace-nowrap transition-colors hover:bg-brand/5 hover:text-brand";
+
+const dropdownPanel =
+  "rounded-2xl border border-line bg-white p-2 shadow-2xl ring-1 ring-black/5";
+
+// A single dropdown row. Three cases:
+//  1. no children            -> plain link
+//  2. children + clickable   -> link that also opens a flyout on hover
+//  3. children, not clickable -> button that only opens the flyout
 function DropdownChild({ child, onNavigate }) {
   const [subOpen, setSubOpen] = useState(false);
   const closeTimer = useRef(null);
@@ -38,16 +46,20 @@ function DropdownChild({ child, onNavigate }) {
   if (!hasChildren) {
     return (
       <li>
-        <Link
-          to={child.path}
-          className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
-          onClick={onNavigate}
-        >
+        <Link to={child.path} className={rowClass} onClick={onNavigate}>
           {child.label}
         </Link>
       </li>
     );
   }
+
+  const rowContent = (
+    <>
+      {child.label}
+      <ChevronRight size={14} className="text-ink-soft" />
+    </>
+  );
+  const flexRow = `flex w-full items-center justify-between gap-4 text-left ${rowClass}`;
 
   return (
     <li
@@ -55,32 +67,41 @@ function DropdownChild({ child, onNavigate }) {
       onMouseEnter={openSub}
       onMouseLeave={scheduleCloseSub}
     >
-      <Link
-        to={child.path}
-        className="flex items-center justify-between gap-4 px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
-        onClick={onNavigate}
-      >
-        {child.label}
-        <ChevronRight size={14} />
-      </Link>
+      {isNavLink(child) ? (
+        <Link to={child.path} className={flexRow} onClick={onNavigate}>
+          {rowContent}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={subOpen}
+          className={flexRow}
+          onClick={() => setSubOpen((v) => !v)}
+        >
+          {rowContent}
+        </button>
+      )}
 
       {subOpen && (
-        <ul
-          className="absolute left-full top-0 min-w-[220px] bg-white shadow-lg py-2 animate-fade-up"
+        <div
+          className="absolute left-full top-0 pl-2 animate-fade-up"
           style={{ animationDuration: "0.15s" }}
         >
-          {child.children.map((grandchild) => (
-            <li key={grandchild.path}>
-              <Link
-                to={grandchild.path}
-                className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap hover:bg-paper hover:text-brand"
-                onClick={onNavigate}
-              >
-                {grandchild.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ul className={`min-w-[220px] ${dropdownPanel}`}>
+            {child.children.map((grandchild) => (
+              <li key={grandchild.path}>
+                <Link
+                  to={grandchild.path}
+                  className={rowClass}
+                  onClick={onNavigate}
+                >
+                  {grandchild.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </li>
   );
@@ -89,7 +110,9 @@ function DropdownChild({ child, onNavigate }) {
 export default function Header() {
   const [openIndex, setOpenIndex] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const closeTimer = useRef(null);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     // Lock body scroll while the mobile drawer is open.
@@ -98,6 +121,28 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  // Close any open dropdown when the route changes.
+  useEffect(() => {
+    setOpenIndex(null);
+  }, [pathname]);
+
+  // Close dropdown with Escape.
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpenIndex(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Add a shadow and glass effect once the page scrolls.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const openMenu = (idx) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -108,31 +153,48 @@ export default function Header() {
     closeTimer.current = setTimeout(() => setOpenIndex(null), 120);
   };
 
+  const topClass = (active) =>
+    `relative flex items-center gap-1 rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
+      active
+        ? "bg-brand/10 text-brand"
+        : "text-ink hover:bg-black/[0.04] hover:text-brand"
+    }`;
+
   return (
-    <header className="sticky top-0 z-40 bg-white">
-      {/* Contact bar — hidden below xl to save space */}
-      <div className="hidden xl:block bg-brand text-white">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/85 shadow-lg shadow-black/5 backdrop-blur-xl"
+          : "bg-white"
+      }`}
+    >
+      {/* Contact bar: hidden below xl to save space */}
+      <div
+        className={`hidden overflow-hidden bg-gradient-to-r from-brand-dark via-brand to-brand-dark text-white transition-all duration-300 xl:block ${
+          scrolled ? "max-h-0" : "max-h-14"
+        }`}
+      >
         <Container>
-          <div className="flex items-center justify-between py-3 text-sm">
-            <div className="flex items-center gap-8">
+          <div className="flex items-center justify-between py-2 text-[13px]">
+            <div className="flex items-center gap-6">
               <a
                 href={contactInfo.phoneHref}
-                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 text-white/90 transition-colors hover:text-accent"
               >
-                <Phone size={15} />
+                <Phone size={14} />
                 {contactInfo.phone}
               </a>
 
               <a
                 href={`mailto:${contactInfo.email}`}
-                className="inline-flex items-center gap-2 hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 text-white/90 transition-colors hover:text-accent"
               >
-                <Mail size={15} />
+                <Mail size={14} />
                 {contactInfo.email}
               </a>
             </div>
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4">
               <SocialLinks />
 
               <label htmlFor="lang-select" className="sr-only">
@@ -142,7 +204,7 @@ export default function Header() {
               <select
                 id="lang-select"
                 defaultValue="en"
-                className="bg-white text-ink text-xs font-medium px-2 py-1.5 min-w-[110px]"
+                className="min-w-[100px] cursor-pointer rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur focus:outline-none focus:ring-2 focus:ring-white/40 [&>option]:text-ink"
               >
                 <option value="en">English</option>
                 <option value="fr">Français</option>
@@ -153,9 +215,13 @@ export default function Header() {
       </div>
 
       {/* Main nav */}
-      <div className="border-b border-line">
+      <div className="border-b border-line/70">
         <Container>
-          <div className="flex items-center justify-between h-20 xl:h-24">
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ${
+              scrolled ? "h-16 xl:h-[72px]" : "h-20 xl:h-24"
+            }`}
+          >
             {/* Logo */}
             <Link
               to="/"
@@ -165,82 +231,101 @@ export default function Header() {
               <img
                 src="/media/fabslogo.png"
                 alt="Francophone Africa Business Summit"
-                className="h-12 xl:h-16 w-auto"
+                className={`w-auto transition-all duration-300 ${
+                  scrolled ? "h-10 xl:h-12" : "h-12 xl:h-16"
+                }`}
               />
             </Link>
 
             {/* Desktop nav */}
             <nav
-              className="hidden xl:flex items-center gap-2"
+              className="hidden items-center gap-1 xl:flex"
               aria-label="Primary"
             >
-              {nav.map((item, idx) => (
-                <div
-                  key={item.label}
-                  className="relative"
-                  onMouseEnter={() => {
-                    if (item.children) openMenu(idx);
-                  }}
-                  onMouseLeave={() => {
-                    if (item.children) scheduleClose();
-                  }}
-                >
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      `flex items-center gap-1 px-3 py-2 text-[16px] font-medium transition-colors ${
-                        isActive ? "text-brand" : "text-ink hover:text-brand"
-                      }`
-                    }
-                    aria-expanded={item.children ? openIndex === idx : undefined}
-                    aria-haspopup={item.children ? true : undefined}
-                    onClick={() => {
-                      if (item.children) {
-                        setOpenIndex(openIndex === idx ? null : idx);
-                      }
+              {nav.map((item, idx) => {
+                const hasMenu = !!item.children?.length;
+                const isOpen = openIndex === idx;
+                // A section is "active" when the current page lives inside it.
+                const sectionActive =
+                  pathname === item.path ||
+                  pathname.startsWith(item.path + "/");
+
+                return (
+                  <div
+                    key={item.label}
+                    className="relative"
+                    onMouseEnter={() => {
+                      if (hasMenu) openMenu(idx);
+                    }}
+                    onMouseLeave={() => {
+                      if (hasMenu) scheduleClose();
                     }}
                   >
-                    {item.label}
-
-                    {item.children && (
-                      <ChevronDown
-                        size={15}
-                        className={`transition-transform ${
-                          openIndex === idx ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </NavLink>
-
-                  {/* Dropdown */}
-                  {item.children && openIndex === idx && (
-                    <div
-                      className="absolute left-0 top-full pt-2 min-w-[220px] animate-fade-up"
-                      style={{ animationDuration: "0.15s" }}
-                    >
-                      <ul className="bg-white shadow-lg py-2">
-                        {item.children.map((child) => (
-                          <DropdownChild
-                            key={child.path}
-                            child={child}
-                            onNavigate={() => setOpenIndex(null)}
+                    {isNavLink(item) ? (
+                      <NavLink
+                        to={item.path}
+                        className={({ isActive }) => topClass(isActive)}
+                        aria-expanded={hasMenu ? isOpen : undefined}
+                        aria-haspopup={hasMenu ? true : undefined}
+                      >
+                        {item.label}
+                        {hasMenu && (
+                          <ChevronDown
+                            size={15}
+                            className={`transition-transform duration-200 ${
+                              isOpen ? "rotate-180" : ""
+                            }`}
                           />
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ))}
+                        )}
+                      </NavLink>
+                    ) : (
+                      <button
+                        type="button"
+                        className={topClass(sectionActive)}
+                        aria-expanded={isOpen}
+                        aria-haspopup="true"
+                        onClick={() => setOpenIndex(isOpen ? null : idx)}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          size={15}
+                          className={`transition-transform duration-200 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    )}
 
-              {/* Contact Us — plain link, no dropdown, sits between the
-                  grouped nav items and the Register button. */}
+                    {/* Dropdown */}
+                    {hasMenu && isOpen && (
+                      <div
+                        className="absolute left-0 top-full min-w-[230px] pt-3 animate-fade-up"
+                        style={{ animationDuration: "0.15s" }}
+                      >
+                        {/* Little arrow pointing at the trigger */}
+                        <span
+                          aria-hidden="true"
+                          className="absolute left-7 top-[5px] h-3 w-3 rotate-45 rounded-sm border-l border-t border-line bg-white"
+                        />
+                        <ul className={`relative ${dropdownPanel}`}>
+                          {item.children.map((child) => (
+                            <DropdownChild
+                              key={child.path}
+                              child={child}
+                              onNavigate={() => setOpenIndex(null)}
+                            />
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Contact Us: plain link, no dropdown */}
               <NavLink
                 to={contactLink.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 px-3 py-2 text-[16px] font-medium transition-colors ${
-                    isActive ? "text-brand" : "text-ink hover:text-brand"
-                  }`
-                }
+                className={({ isActive }) => topClass(isActive)}
               >
                 {contactLink.label}
               </NavLink>
@@ -250,15 +335,18 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <Link
                 to={registerLink.path}
-                className="hidden xl:inline-flex items-center gap-2 bg-gradient-to-r from-brand to-accent text-white font-semibold text-[16px] px-7 py-4 hover:brightness-110 transition"
+                className="group hidden items-center gap-2 rounded-full bg-gradient-to-r from-brand to-accent px-6 py-3 text-[15px] font-semibold text-white shadow-lg shadow-brand/25 transition hover:-translate-y-0.5 hover:shadow-xl xl:inline-flex"
               >
                 {registerLink.label}
-                <ArrowRight size={18} />
+                <ArrowRight
+                  size={17}
+                  className="transition-transform group-hover:translate-x-1"
+                />
               </Link>
 
               <button
                 type="button"
-                className="xl:hidden p-2 -mr-2 text-ink"
+                className="-mr-2 rounded-full p-2.5 text-ink transition hover:bg-black/[0.05] xl:hidden"
                 aria-label="Open menu"
                 onClick={() => setMobileOpen(true)}
               >

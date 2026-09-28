@@ -1,6 +1,5 @@
+// src/data/epena.js  (plain JS: NO JSX allowed in this file)
 import { colors } from "../theme/colors";
-
-// All copy for the Epena Law page lives here.
 
 export const epenaIntro = {
   heading: "About Epena Law",
@@ -12,15 +11,15 @@ export const epenaIntro = {
     label: "Download PDF",
     href: "/media/Epena-Law-Company-Profile-Eng.pdf",
   },
-  badge: { value: "39+", line1: "Years of", line2: "Cumulative Experiences" },
-  imageTop: { src: "public/media/about-epena.png", alt: "Glass skyscrapers seen from below" },
-  imageBottom: { src: "public/media/about-epena2.png", alt: "Chess pieces stepping up a set of blocks" },
+  badge: { start: 1, end: 40, suffix: "+", line1: "Years of", line2: "Cumulative Experiences" },
+  imageTop: { src: "/media/about-epena.png", alt: "Glass skyscrapers seen from below" },
+  imageBottom: { src: "/media/about-epena2.png", alt: "Chess pieces stepping up a set of blocks" },
 };
 
 export const epenaStats = [
   {
     icon: "award",
-    value: "39",
+    value: "40",
     suffix: "+",
     label: "combined experience in London, Paris, New York, Luxembourg and Africa",
   },
@@ -50,12 +49,10 @@ export const gateway = {
     "Through representations and a presence embedded in key African markets like Cameroon, Côte d'Ivoire, Benin and Nigeria plus affiliations with premier law firms across Senegal, DRC and more, we serve as the gateway connecting international investors to the yet untapped opportunities across the Francophone sphere.",
   ],
   map: {
-    src: "public/media/EPENA-MAP-scaled.webp",
+    src: "/media/EPENA-MAP-scaled.webp",
     alt: "Map of Africa showing Epena Law's offices, representations and transactions",
     showLegend: true,
   },
-  // Legend colors are pulled from the central brand palette instead of
-  // one-off hex values, so the map legend always matches the rest of the site.
   legend: [
     { color: colors.brandDark, label: "Epena office in Francophone Africa" },
     { color: colors.brand, label: "Epena representation in Francophone African Countries" },
