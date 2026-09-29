@@ -16,6 +16,11 @@ export const POST_LIST_QUERY = `
 *[_type == "post" && defined(slug.current)] | order(publishedAt desc) ${POST_PROJECTION}
 `;
 
+// The 4 most recent published posts — used by the homepage "What's new" grid.
+export const LATEST_POSTS_QUERY = `
+*[_type == "post" && defined(slug.current)] | order(publishedAt desc) [0...4] ${POST_PROJECTION}
+`;
+
 export const POSTS_BY_CATEGORY_QUERY = `
 *[_type == "post" && defined(slug.current) && category->title == $category] | order(publishedAt desc) ${POST_PROJECTION}
 `;

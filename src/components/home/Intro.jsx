@@ -1,6 +1,7 @@
 // src/components/home/Intro.jsx
 import { useState, useEffect } from "react";
 import { statsContent, convenesContent } from "../../data/home";
+import { colors } from "../../theme/colors";
 
 export default function Intro() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -30,10 +31,12 @@ export default function Intro() {
                 aria-hidden={i !== activeIndex}
               >
                 <span className="text-4xl font-bold text-white sm:text-5xl">{stat.value}</span>
-                <span className="mt-1 text-sm font-semibold uppercase tracking-wider text-white">
+                {/* Label: 14px -> 16.8px (+20%) */}
+                <span className="mt-1 text-[16.8px] font-semibold uppercase tracking-wider text-white">
                   {stat.label}
                 </span>
-                <p className="mt-2 line-clamp-2 max-w-xs text-xs leading-snug text-white/90">
+                {/* Description: 12px -> 15.6px (+30%) */}
+                <p className="mt-2 line-clamp-2 max-w-sm text-[15.6px] leading-snug text-white/90">
                   {stat.description}
                 </p>
               </div>
@@ -71,15 +74,17 @@ export default function Intro() {
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setOpenConvene((cur) => (cur === i ? null : i))}
-                      className={`absolute inset-x-0 top-0 flex w-full items-start gap-3 overflow-hidden rounded-2xl border bg-white px-4 py-3 text-left transition-all duration-300 ease-in-out ${
-                        isOpen
-                          ? "border-brand/30 shadow-2xl"
-                          : "border-line shadow-md hover:shadow-lg"
+                      className={`absolute inset-x-0 top-0 flex w-full items-start gap-3 overflow-hidden rounded-2xl border px-4 py-3 text-left transition-all duration-300 ease-in-out ${
+                        isOpen ? "shadow-2xl" : "border-line shadow-md hover:shadow-lg"
                       }`}
-                      style={{ minHeight: "100%" }}
+                      style={{
+                        minHeight: "100%",
+                        backgroundColor: isOpen ? colors.accent : "#ffffff",
+                        borderColor: isOpen ? colors.accent : undefined,
+                      }}
                     >
                       <span
-                        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
+                        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-md font-bold transition ${
                           isOpen ? "bg-brand text-white" : "bg-brand/10 text-brand"
                         }`}
                       >
@@ -87,7 +92,7 @@ export default function Intro() {
                       </span>
                       <span className="min-w-0 flex-1">
                         <h3
-                          className={`text-sm font-bold leading-snug text-ink ${
+                          className={`text-xxl font-bold leading-snug text-ink ${
                             isOpen ? "" : "line-clamp-2"
                           }`}
                         >
@@ -99,8 +104,8 @@ export default function Intro() {
                           }`}
                         >
                           <span
-                            className={`overflow-hidden text-xs leading-relaxed text-ink-soft transition-opacity duration-300 ${
-                              isOpen ? "pt-2 opacity-100" : "opacity-0"
+                            className={`overflow-hidden text-md leading-relaxed transition-opacity duration-300 ${
+                              isOpen ? "pt-2 text-ink opacity-100" : "text-ink-soft opacity-0"
                             }`}
                           >
                             {item.body}
@@ -109,8 +114,8 @@ export default function Intro() {
                       </span>
                       <svg
                         viewBox="0 0 24 24"
-                        className={`mt-1 h-4 w-4 shrink-0 text-brand transition-transform duration-300 ${
-                          isOpen ? "rotate-180" : ""
+                        className={`mt-1 h-4 w-4 shrink-0 transition-transform duration-300 ${
+                          isOpen ? "rotate-180 text-ink" : "text-brand"
                         }`}
                         fill="none"
                         stroke="currentColor"
